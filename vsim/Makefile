@@ -6,13 +6,6 @@ DUMPWAVE     := 1
 CORE        := e203
 CFG         := ${CORE}_config
 
-E201        := e201
-E203        := e203
-E205        := e205
-E205F       := e205f
-E205FD      := e205fd
-E225FD      := e225fd
-
 
 CORE_NAME = $(shell echo $(CORE) | tr a-z A-Z)
 core_name = $(shell echo $(CORE) | tr A-Z a-z)
@@ -21,9 +14,7 @@ all: run_test
 
 install: 
 	mkdir -p ${SIM_DIR}/install/tb
-	cp ${SIM_DIR}/../tb/tb_top.v ${SIM_DIR}/install/tb/ -rf
-	sed -i "s/e200/${core_name}/g" ${SIM_DIR}/install/tb/tb_top.v
-	sed -i "s/E200/${CORE_NAME}/g" ${SIM_DIR}/install/tb/tb_top.v
+	cp ${SIM_DIR}/../tb/*.v ${SIM_DIR}/install/tb -rf
 	cp ${SIM_DIR}/../rtl/${core_name} ${SIM_DIR}/install/rtl -rf
 
 ${RUN_DIR}:
@@ -44,27 +35,6 @@ SELF_TESTS := $(patsubst %.dump,%,$(wildcard ${RUN_DIR}/../../riscv-tools/riscv-
 ifeq ($(core_name),${E203})
 SELF_TESTS += $(patsubst %.dump,%,$(wildcard ${RUN_DIR}/../../riscv-tools/riscv-tests/isa/generated/rv32um-p*.dump))
 SELF_TESTS += $(patsubst %.dump,%,$(wildcard ${RUN_DIR}/../../riscv-tools/riscv-tests/isa/generated/rv32ua-p*.dump))
-endif
-ifeq ($(core_name),${E205})
-SELF_TESTS += $(patsubst %.dump,%,$(wildcard ${RUN_DIR}/../../riscv-tools/riscv-tests/isa/generated/rv32um-p*.dump))
-SELF_TESTS += $(patsubst %.dump,%,$(wildcard ${RUN_DIR}/../../riscv-tools/riscv-tests/isa/generated/rv32ua-p*.dump))
-endif
-ifeq ($(core_name),${E205F})
-SELF_TESTS += $(patsubst %.dump,%,$(wildcard ${RUN_DIR}/../../riscv-tools/riscv-tests/isa/generated/rv32um-p*.dump))
-SELF_TESTS += $(patsubst %.dump,%,$(wildcard ${RUN_DIR}/../../riscv-tools/riscv-tests/isa/generated/rv32ua-p*.dump))
-SELF_TESTS += $(patsubst %.dump,%,$(wildcard ${RUN_DIR}/../../riscv-tools/riscv-tests/isa/generated/rv32uf-p*.dump))
-endif
-ifeq ($(core_name),${E205FD})
-SELF_TESTS += $(patsubst %.dump,%,$(wildcard ${RUN_DIR}/../../riscv-tools/riscv-tests/isa/generated/rv32um-p*.dump))
-SELF_TESTS += $(patsubst %.dump,%,$(wildcard ${RUN_DIR}/../../riscv-tools/riscv-tests/isa/generated/rv32ua-p*.dump))
-SELF_TESTS += $(patsubst %.dump,%,$(wildcard ${RUN_DIR}/../../riscv-tools/riscv-tests/isa/generated/rv32ud-p*.dump))
-SELF_TESTS += $(patsubst %.dump,%,$(wildcard ${RUN_DIR}/../../riscv-tools/riscv-tests/isa/generated/rv32uf-p*.dump))
-endif
-ifeq ($(core_name),${E225FD})
-SELF_TESTS += $(patsubst %.dump,%,$(wildcard ${RUN_DIR}/../../riscv-tools/riscv-tests/isa/generated/rv32um-p*.dump))
-SELF_TESTS += $(patsubst %.dump,%,$(wildcard ${RUN_DIR}/../../riscv-tools/riscv-tests/isa/generated/rv32ua-p*.dump))
-SELF_TESTS += $(patsubst %.dump,%,$(wildcard ${RUN_DIR}/../../riscv-tools/riscv-tests/isa/generated/rv32ud-p*.dump))
-SELF_TESTS += $(patsubst %.dump,%,$(wildcard ${RUN_DIR}/../../riscv-tools/riscv-tests/isa/generated/rv32uf-p*.dump))
 endif
 
 SELF_TESTS += $(patsubst %.dump,%,$(wildcard ${RUN_DIR}/../../riscv-tools/riscv-tests/isa/generated/rv32ui-p*.dump))

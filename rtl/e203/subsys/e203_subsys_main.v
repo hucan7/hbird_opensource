@@ -18,7 +18,7 @@
                                                                          
 //=====================================================================
 //
-// Designer   : Bob Hu
+// Designer   : Jayden Hu
 //
 // Description:
 //  The Subsystem-TOP module to implement CPU and some closely coupled devices
@@ -105,235 +105,113 @@ module e203_subsys_main(
   output                         dm_icb_rsp_ready,
   input  [`E203_XLEN-1:0]        dm_icb_rsp_rdata,
 
-  input  io_pads_gpio_0_i_ival,
-  output io_pads_gpio_0_o_oval,
-  output io_pads_gpio_0_o_oe,
-  output io_pads_gpio_0_o_ie,
-  output io_pads_gpio_0_o_pue,
-  output io_pads_gpio_0_o_ds,
-  input  io_pads_gpio_1_i_ival,
-  output io_pads_gpio_1_o_oval,
-  output io_pads_gpio_1_o_oe,
-  output io_pads_gpio_1_o_ie,
-  output io_pads_gpio_1_o_pue,
-  output io_pads_gpio_1_o_ds,
-  input  io_pads_gpio_2_i_ival,
-  output io_pads_gpio_2_o_oval,
-  output io_pads_gpio_2_o_oe,
-  output io_pads_gpio_2_o_ie,
-  output io_pads_gpio_2_o_pue,
-  output io_pads_gpio_2_o_ds,
-  input  io_pads_gpio_3_i_ival,
-  output io_pads_gpio_3_o_oval,
-  output io_pads_gpio_3_o_oe,
-  output io_pads_gpio_3_o_ie,
-  output io_pads_gpio_3_o_pue,
-  output io_pads_gpio_3_o_ds,
-  input  io_pads_gpio_4_i_ival,
-  output io_pads_gpio_4_o_oval,
-  output io_pads_gpio_4_o_oe,
-  output io_pads_gpio_4_o_ie,
-  output io_pads_gpio_4_o_pue,
-  output io_pads_gpio_4_o_ds,
-  input  io_pads_gpio_5_i_ival,
-  output io_pads_gpio_5_o_oval,
-  output io_pads_gpio_5_o_oe,
-  output io_pads_gpio_5_o_ie,
-  output io_pads_gpio_5_o_pue,
-  output io_pads_gpio_5_o_ds,
-  input  io_pads_gpio_6_i_ival,
-  output io_pads_gpio_6_o_oval,
-  output io_pads_gpio_6_o_oe,
-  output io_pads_gpio_6_o_ie,
-  output io_pads_gpio_6_o_pue,
-  output io_pads_gpio_6_o_ds,
-  input  io_pads_gpio_7_i_ival,
-  output io_pads_gpio_7_o_oval,
-  output io_pads_gpio_7_o_oe,
-  output io_pads_gpio_7_o_ie,
-  output io_pads_gpio_7_o_pue,
-  output io_pads_gpio_7_o_ds,
-  input  io_pads_gpio_8_i_ival,
-  output io_pads_gpio_8_o_oval,
-  output io_pads_gpio_8_o_oe,
-  output io_pads_gpio_8_o_ie,
-  output io_pads_gpio_8_o_pue,
-  output io_pads_gpio_8_o_ds,
-  input  io_pads_gpio_9_i_ival,
-  output io_pads_gpio_9_o_oval,
-  output io_pads_gpio_9_o_oe,
-  output io_pads_gpio_9_o_ie,
-  output io_pads_gpio_9_o_pue,
-  output io_pads_gpio_9_o_ds,
-  input  io_pads_gpio_10_i_ival,
-  output io_pads_gpio_10_o_oval,
-  output io_pads_gpio_10_o_oe,
-  output io_pads_gpio_10_o_ie,
-  output io_pads_gpio_10_o_pue,
-  output io_pads_gpio_10_o_ds,
-  input  io_pads_gpio_11_i_ival,
-  output io_pads_gpio_11_o_oval,
-  output io_pads_gpio_11_o_oe,
-  output io_pads_gpio_11_o_ie,
-  output io_pads_gpio_11_o_pue,
-  output io_pads_gpio_11_o_ds,
-  input  io_pads_gpio_12_i_ival,
-  output io_pads_gpio_12_o_oval,
-  output io_pads_gpio_12_o_oe,
-  output io_pads_gpio_12_o_ie,
-  output io_pads_gpio_12_o_pue,
-  output io_pads_gpio_12_o_ds,
-  input  io_pads_gpio_13_i_ival,
-  output io_pads_gpio_13_o_oval,
-  output io_pads_gpio_13_o_oe,
-  output io_pads_gpio_13_o_ie,
-  output io_pads_gpio_13_o_pue,
-  output io_pads_gpio_13_o_ds,
-  input  io_pads_gpio_14_i_ival,
-  output io_pads_gpio_14_o_oval,
-  output io_pads_gpio_14_o_oe,
-  output io_pads_gpio_14_o_ie,
-  output io_pads_gpio_14_o_pue,
-  output io_pads_gpio_14_o_ds,
-  input  io_pads_gpio_15_i_ival,
-  output io_pads_gpio_15_o_oval,
-  output io_pads_gpio_15_o_oe,
-  output io_pads_gpio_15_o_ie,
-  output io_pads_gpio_15_o_pue,
-  output io_pads_gpio_15_o_ds,
-  input  io_pads_gpio_16_i_ival,
-  output io_pads_gpio_16_o_oval,
-  output io_pads_gpio_16_o_oe,
-  output io_pads_gpio_16_o_ie,
-  output io_pads_gpio_16_o_pue,
-  output io_pads_gpio_16_o_ds,
-  input  io_pads_gpio_17_i_ival,
-  output io_pads_gpio_17_o_oval,
-  output io_pads_gpio_17_o_oe,
-  output io_pads_gpio_17_o_ie,
-  output io_pads_gpio_17_o_pue,
-  output io_pads_gpio_17_o_ds,
-  input  io_pads_gpio_18_i_ival,
-  output io_pads_gpio_18_o_oval,
-  output io_pads_gpio_18_o_oe,
-  output io_pads_gpio_18_o_ie,
-  output io_pads_gpio_18_o_pue,
-  output io_pads_gpio_18_o_ds,
-  input  io_pads_gpio_19_i_ival,
-  output io_pads_gpio_19_o_oval,
-  output io_pads_gpio_19_o_oe,
-  output io_pads_gpio_19_o_ie,
-  output io_pads_gpio_19_o_pue,
-  output io_pads_gpio_19_o_ds,
-  input  io_pads_gpio_20_i_ival,
-  output io_pads_gpio_20_o_oval,
-  output io_pads_gpio_20_o_oe,
-  output io_pads_gpio_20_o_ie,
-  output io_pads_gpio_20_o_pue,
-  output io_pads_gpio_20_o_ds,
-  input  io_pads_gpio_21_i_ival,
-  output io_pads_gpio_21_o_oval,
-  output io_pads_gpio_21_o_oe,
-  output io_pads_gpio_21_o_ie,
-  output io_pads_gpio_21_o_pue,
-  output io_pads_gpio_21_o_ds,
-  input  io_pads_gpio_22_i_ival,
-  output io_pads_gpio_22_o_oval,
-  output io_pads_gpio_22_o_oe,
-  output io_pads_gpio_22_o_ie,
-  output io_pads_gpio_22_o_pue,
-  output io_pads_gpio_22_o_ds,
-  input  io_pads_gpio_23_i_ival,
-  output io_pads_gpio_23_o_oval,
-  output io_pads_gpio_23_o_oe,
-  output io_pads_gpio_23_o_ie,
-  output io_pads_gpio_23_o_pue,
-  output io_pads_gpio_23_o_ds,
-  input  io_pads_gpio_24_i_ival,
-  output io_pads_gpio_24_o_oval,
-  output io_pads_gpio_24_o_oe,
-  output io_pads_gpio_24_o_ie,
-  output io_pads_gpio_24_o_pue,
-  output io_pads_gpio_24_o_ds,
-  input  io_pads_gpio_25_i_ival,
-  output io_pads_gpio_25_o_oval,
-  output io_pads_gpio_25_o_oe,
-  output io_pads_gpio_25_o_ie,
-  output io_pads_gpio_25_o_pue,
-  output io_pads_gpio_25_o_ds,
-  input  io_pads_gpio_26_i_ival,
-  output io_pads_gpio_26_o_oval,
-  output io_pads_gpio_26_o_oe,
-  output io_pads_gpio_26_o_ie,
-  output io_pads_gpio_26_o_pue,
-  output io_pads_gpio_26_o_ds,
-  input  io_pads_gpio_27_i_ival,
-  output io_pads_gpio_27_o_oval,
-  output io_pads_gpio_27_o_oe,
-  output io_pads_gpio_27_o_ie,
-  output io_pads_gpio_27_o_pue,
-  output io_pads_gpio_27_o_ds,
-  input  io_pads_gpio_28_i_ival,
-  output io_pads_gpio_28_o_oval,
-  output io_pads_gpio_28_o_oe,
-  output io_pads_gpio_28_o_ie,
-  output io_pads_gpio_28_o_pue,
-  output io_pads_gpio_28_o_ds,
-  input  io_pads_gpio_29_i_ival,
-  output io_pads_gpio_29_o_oval,
-  output io_pads_gpio_29_o_oe,
-  output io_pads_gpio_29_o_ie,
-  output io_pads_gpio_29_o_pue,
-  output io_pads_gpio_29_o_ds,
-  input  io_pads_gpio_30_i_ival,
-  output io_pads_gpio_30_o_oval,
-  output io_pads_gpio_30_o_oe,
-  output io_pads_gpio_30_o_ie,
-  output io_pads_gpio_30_o_pue,
-  output io_pads_gpio_30_o_ds,
-  input  io_pads_gpio_31_i_ival,
-  output io_pads_gpio_31_o_oval,
-  output io_pads_gpio_31_o_oe,
-  output io_pads_gpio_31_o_ie,
-  output io_pads_gpio_31_o_pue,
-  output io_pads_gpio_31_o_ds,
+  input  [32-1:0] io_pads_gpio_i_ival,
+  output [32-1:0] io_pads_gpio_o_oval,
+  output [32-1:0] io_pads_gpio_o_oe,
 
-  input   io_pads_qspi_sck_i_ival,
-  output  io_pads_qspi_sck_o_oval,
-  output  io_pads_qspi_sck_o_oe,
-  output  io_pads_qspi_sck_o_ie,
-  output  io_pads_qspi_sck_o_pue,
-  output  io_pads_qspi_sck_o_ds,
-  input   io_pads_qspi_dq_0_i_ival,
-  output  io_pads_qspi_dq_0_o_oval,
-  output  io_pads_qspi_dq_0_o_oe,
-  output  io_pads_qspi_dq_0_o_ie,
-  output  io_pads_qspi_dq_0_o_pue,
-  output  io_pads_qspi_dq_0_o_ds,
-  input   io_pads_qspi_dq_1_i_ival,
-  output  io_pads_qspi_dq_1_o_oval,
-  output  io_pads_qspi_dq_1_o_oe,
-  output  io_pads_qspi_dq_1_o_ie,
-  output  io_pads_qspi_dq_1_o_pue,
-  output  io_pads_qspi_dq_1_o_ds,
-  input   io_pads_qspi_dq_2_i_ival,
-  output  io_pads_qspi_dq_2_o_oval,
-  output  io_pads_qspi_dq_2_o_oe,
-  output  io_pads_qspi_dq_2_o_ie,
-  output  io_pads_qspi_dq_2_o_pue,
-  output  io_pads_qspi_dq_2_o_ds,
-  input   io_pads_qspi_dq_3_i_ival,
-  output  io_pads_qspi_dq_3_o_oval,
-  output  io_pads_qspi_dq_3_o_oe,
-  output  io_pads_qspi_dq_3_o_ie,
-  output  io_pads_qspi_dq_3_o_pue,
-  output  io_pads_qspi_dq_3_o_ds,
-  input   io_pads_qspi_cs_0_i_ival,
-  output  io_pads_qspi_cs_0_o_oval,
-  output  io_pads_qspi_cs_0_o_oe,
-  output  io_pads_qspi_cs_0_o_ie,
-  output  io_pads_qspi_cs_0_o_pue,
-  output  io_pads_qspi_cs_0_o_ds,
+  input   io_pads_uart0_rxd_i_ival,
+  output  io_pads_uart0_rxd_o_oval,
+  output  io_pads_uart0_rxd_o_oe,
+  input   io_pads_uart0_txd_i_ival,
+  output  io_pads_uart0_txd_o_oval,
+  output  io_pads_uart0_txd_o_oe,
+
+  input   io_pads_qspi0_sck_i_ival,
+  output  io_pads_qspi0_sck_o_oval,
+  output  io_pads_qspi0_sck_o_oe,
+  input   io_pads_qspi0_dq_0_i_ival,
+  output  io_pads_qspi0_dq_0_o_oval,
+  output  io_pads_qspi0_dq_0_o_oe,
+  input   io_pads_qspi0_dq_1_i_ival,
+  output  io_pads_qspi0_dq_1_o_oval,
+  output  io_pads_qspi0_dq_1_o_oe,
+  input   io_pads_qspi0_dq_2_i_ival,
+  output  io_pads_qspi0_dq_2_o_oval,
+  output  io_pads_qspi0_dq_2_o_oe,
+  input   io_pads_qspi0_dq_3_i_ival,
+  output  io_pads_qspi0_dq_3_o_oval,
+  output  io_pads_qspi0_dq_3_o_oe,
+  input   io_pads_qspi0_cs_0_i_ival,
+  output  io_pads_qspi0_cs_0_o_oval,
+  output  io_pads_qspi0_cs_0_o_oe,
+
+  input   io_pads_qspi1_sck_i_ival,
+  output  io_pads_qspi1_sck_o_oval,
+  output  io_pads_qspi1_sck_o_oe,
+  input   io_pads_qspi1_dq_0_i_ival,
+  output  io_pads_qspi1_dq_0_o_oval,
+  output  io_pads_qspi1_dq_0_o_oe,
+  input   io_pads_qspi1_dq_1_i_ival,
+  output  io_pads_qspi1_dq_1_o_oval,
+  output  io_pads_qspi1_dq_1_o_oe,
+  input   io_pads_qspi1_dq_2_i_ival,
+  output  io_pads_qspi1_dq_2_o_oval,
+  output  io_pads_qspi1_dq_2_o_oe,
+  input   io_pads_qspi1_dq_3_i_ival,
+  output  io_pads_qspi1_dq_3_o_oval,
+  output  io_pads_qspi1_dq_3_o_oe,
+  input   io_pads_qspi1_cs_0_i_ival,
+  output  io_pads_qspi1_cs_0_o_oval,
+  output  io_pads_qspi1_cs_0_o_oe,
+
+  output  io_pads_i2c0_scl_o_oen,
+  output  io_pads_i2c0_sda_o_oen,
+  output  io_pads_i2c0_sda_o_oval,
+  output  io_pads_i2c0_scl_o_oval,
+  input   io_pads_i2c0_scl_i_ival,
+  input   io_pads_i2c0_sda_i_ival,  
+
+  input   io_pads_pwm0_ch0_i_ival,
+  output  io_pads_pwm0_ch0_o_oval,
+  output  io_pads_pwm0_ch0_o_oe,
+  input   io_pads_pwm0_ch1_i_ival,
+  output  io_pads_pwm0_ch1_o_oval,
+  output  io_pads_pwm0_ch1_o_oe,
+  input   io_pads_pwm0_ch2_i_ival,
+  output  io_pads_pwm0_ch2_o_oval,
+  output  io_pads_pwm0_ch2_o_oe,
+  input   io_pads_pwm0_ch3_i_ival,
+  output  io_pads_pwm0_ch3_o_oval,
+  output  io_pads_pwm0_ch3_o_oe,
+
+  input   io_pads_pwm1_ch0_i_ival,
+  output  io_pads_pwm1_ch0_o_oval,
+  output  io_pads_pwm1_ch0_o_oe,
+  input   io_pads_pwm1_ch1_i_ival,
+  output  io_pads_pwm1_ch1_o_oval,
+  output  io_pads_pwm1_ch1_o_oe,
+  input   io_pads_pwm1_ch2_i_ival,
+  output  io_pads_pwm1_ch2_o_oval,
+  output  io_pads_pwm1_ch2_o_oe,
+  input   io_pads_pwm1_ch3_i_ival,
+  output  io_pads_pwm1_ch3_o_oval,
+  output  io_pads_pwm1_ch3_o_oe,
+
+  input   io_pads_pwm2_ch0_i_ival,
+  output  io_pads_pwm2_ch0_o_oval,
+  output  io_pads_pwm2_ch0_o_oe,
+  input   io_pads_pwm2_ch1_i_ival,
+  output  io_pads_pwm2_ch1_o_oval,
+  output  io_pads_pwm2_ch1_o_oe,
+  input   io_pads_pwm2_ch2_i_ival,
+  output  io_pads_pwm2_ch2_o_oval,
+  output  io_pads_pwm2_ch2_o_oe,
+  input   io_pads_pwm2_ch3_i_ival,
+  output  io_pads_pwm2_ch3_o_oval,
+  output  io_pads_pwm2_ch3_o_oe,
+
+  input   io_pads_pwm3_ch0_i_ival,
+  output  io_pads_pwm3_ch0_o_oval,
+  output  io_pads_pwm3_ch0_o_oe,
+  input   io_pads_pwm3_ch1_i_ival,
+  output  io_pads_pwm3_ch1_o_oval,
+  output  io_pads_pwm3_ch1_o_oe,
+  input   io_pads_pwm3_ch2_i_ival,
+  output  io_pads_pwm3_ch2_o_oval,
+  output  io_pads_pwm3_ch2_o_oe,
+  input   io_pads_pwm3_ch3_i_ival,
+  output  io_pads_pwm3_ch3_o_oval,
+  output  io_pads_pwm3_ch3_o_oe,
 
   `ifdef E203_HAS_ITCM_EXTITF //{
   //////////////////////////////////////////////////////////////
@@ -434,6 +312,8 @@ module e203_subsys_main(
 
   input  test_mode,
 
+  input  ls_clk,
+
   input  corerst, // The original async reset
   input  hfclkrst, // The original async reset
   input  hfextclk,// The original clock from crystal
@@ -452,332 +332,78 @@ module e203_subsys_main(
 
  assign inspect_pc_29b = inspect_pc[29];
 
- wire  gpio_0_o_oval ;
- wire  gpio_0_o_oe   ;
- wire  gpio_0_o_ie   ;
- wire  gpio_0_o_pue  ;
- wire  gpio_0_o_ds   ;
- wire  gpio_1_o_oval ;
- wire  gpio_1_o_oe   ;
- wire  gpio_1_o_ie   ;
- wire  gpio_1_o_pue  ;
- wire  gpio_1_o_ds   ;
- wire  gpio_2_o_oval ;
- wire  gpio_2_o_oe   ;
- wire  gpio_2_o_ie   ;
- wire  gpio_2_o_pue  ;
- wire  gpio_2_o_ds   ;
- wire  gpio_3_o_oval ;
- wire  gpio_3_o_oe   ;
- wire  gpio_3_o_ie   ;
- wire  gpio_3_o_pue  ;
- wire  gpio_3_o_ds   ;
- wire  gpio_4_o_oval ;
- wire  gpio_4_o_oe   ;
- wire  gpio_4_o_ie   ;
- wire  gpio_4_o_pue  ;
- wire  gpio_4_o_ds   ;
- wire  gpio_5_o_oval ;
- wire  gpio_5_o_oe   ;
- wire  gpio_5_o_ie   ;
- wire  gpio_5_o_pue  ;
- wire  gpio_5_o_ds   ;
- wire  gpio_6_o_oval ;
- wire  gpio_6_o_oe   ;
- wire  gpio_6_o_ie   ;
- wire  gpio_6_o_pue  ;
- wire  gpio_6_o_ds   ;
- wire  gpio_7_o_oval ;
- wire  gpio_7_o_oe   ;
- wire  gpio_7_o_ie   ;
- wire  gpio_7_o_pue  ;
- wire  gpio_7_o_ds   ;
- wire  gpio_8_o_oval ;
- wire  gpio_8_o_oe   ;
- wire  gpio_8_o_ie   ;
- wire  gpio_8_o_pue  ;
- wire  gpio_8_o_ds   ;
- wire  gpio_9_o_oval ;
- wire  gpio_9_o_oe   ;
- wire  gpio_9_o_ie   ;
- wire  gpio_9_o_pue  ;
- wire  gpio_9_o_ds   ;
- wire  gpio_10_o_oval;
- wire  gpio_10_o_oe  ;
- wire  gpio_10_o_ie  ;
- wire  gpio_10_o_pue ;
- wire  gpio_10_o_ds  ;
- wire  gpio_11_o_oval;
- wire  gpio_11_o_oe  ;
- wire  gpio_11_o_ie  ;
- wire  gpio_11_o_pue ;
- wire  gpio_11_o_ds  ;
- wire  gpio_12_o_oval;
- wire  gpio_12_o_oe  ;
- wire  gpio_12_o_ie  ;
- wire  gpio_12_o_pue ;
- wire  gpio_12_o_ds  ;
- wire  gpio_13_o_oval;
- wire  gpio_13_o_oe  ;
- wire  gpio_13_o_ie  ;
- wire  gpio_13_o_pue ;
- wire  gpio_13_o_ds  ;
- wire  gpio_14_o_oval;
- wire  gpio_14_o_oe  ;
- wire  gpio_14_o_ie  ;
- wire  gpio_14_o_pue ;
- wire  gpio_14_o_ds  ;
- wire  gpio_15_o_oval;
- wire  gpio_15_o_oe  ;
- wire  gpio_15_o_ie  ;
- wire  gpio_15_o_pue ;
- wire  gpio_15_o_ds  ;
- wire  gpio_16_o_oval;
- wire  gpio_16_o_oe  ;
- wire  gpio_16_o_ie  ;
- wire  gpio_16_o_pue ;
- wire  gpio_16_o_ds  ;
- wire  gpio_17_o_oval;
- wire  gpio_17_o_oe  ;
- wire  gpio_17_o_ie  ;
- wire  gpio_17_o_pue ;
- wire  gpio_17_o_ds  ;
- wire  gpio_18_o_oval;
- wire  gpio_18_o_oe  ;
- wire  gpio_18_o_ie  ;
- wire  gpio_18_o_pue ;
- wire  gpio_18_o_ds  ;
- wire  gpio_19_o_oval;
- wire  gpio_19_o_oe  ;
- wire  gpio_19_o_ie  ;
- wire  gpio_19_o_pue ;
- wire  gpio_19_o_ds  ;
- wire  gpio_20_o_oval;
- wire  gpio_20_o_oe  ;
- wire  gpio_20_o_ie  ;
- wire  gpio_20_o_pue ;
- wire  gpio_20_o_ds  ;
- wire  gpio_21_o_oval;
- wire  gpio_21_o_oe  ;
- wire  gpio_21_o_ie  ;
- wire  gpio_21_o_pue ;
- wire  gpio_21_o_ds  ;
- wire  gpio_22_o_oval;
- wire  gpio_22_o_oe  ;
- wire  gpio_22_o_ie  ;
- wire  gpio_22_o_pue ;
- wire  gpio_22_o_ds  ;
- wire  gpio_23_o_oval;
- wire  gpio_23_o_oe  ;
- wire  gpio_23_o_ie  ;
- wire  gpio_23_o_pue ;
- wire  gpio_23_o_ds  ;
- wire  gpio_24_o_oval;
- wire  gpio_24_o_oe  ;
- wire  gpio_24_o_ie  ;
- wire  gpio_24_o_pue ;
- wire  gpio_24_o_ds  ;
- wire  gpio_25_o_oval;
- wire  gpio_25_o_oe  ;
- wire  gpio_25_o_ie  ;
- wire  gpio_25_o_pue ;
- wire  gpio_25_o_ds  ;
- wire  gpio_26_o_oval;
- wire  gpio_26_o_oe  ;
- wire  gpio_26_o_ie  ;
- wire  gpio_26_o_pue ;
- wire  gpio_26_o_ds  ;
- wire  gpio_27_o_oval;
- wire  gpio_27_o_oe  ;
- wire  gpio_27_o_ie  ;
- wire  gpio_27_o_pue ;
- wire  gpio_27_o_ds  ;
- wire  gpio_28_o_oval;
- wire  gpio_28_o_oe  ;
- wire  gpio_28_o_ie  ;
- wire  gpio_28_o_pue ;
- wire  gpio_28_o_ds  ;
- wire  gpio_29_o_oval;
- wire  gpio_29_o_oe  ;
- wire  gpio_29_o_ie  ;
- wire  gpio_29_o_pue ;
- wire  gpio_29_o_ds  ;
- wire  gpio_30_o_oval;
- wire  gpio_30_o_oe  ;
- wire  gpio_30_o_ie  ;
- wire  gpio_30_o_pue ;
- wire  gpio_30_o_ds  ;
- wire  gpio_31_o_oval;
- wire  gpio_31_o_oe  ;
- wire  gpio_31_o_ie  ;
- wire  gpio_31_o_pue ;
- wire  gpio_31_o_ds  ;
+ wire  [32-1:0] gpio_o_oval ;
+ wire  [32-1:0] gpio_o_oe   ;
 
 
-    // The GPIO are reused for inspect mode, in which the GPIO
+  // The GPIO are reused for inspect mode, in which the GPIO
   //   is forced to be an output
- assign  io_pads_gpio_0_o_oval    = inspect_mode ? inspect_pc[0] : gpio_0_o_oval;
- assign  io_pads_gpio_0_o_oe      = inspect_mode ? 1'b1          : gpio_0_o_oe;
- assign  io_pads_gpio_0_o_ie      = inspect_mode ? 1'b0          : gpio_0_o_ie;
- assign  io_pads_gpio_0_o_pue     = inspect_mode ? 1'b0          : gpio_0_o_pue;
- assign  io_pads_gpio_0_o_ds      = inspect_mode ? 1'b1          : gpio_0_o_ds;
- assign  io_pads_gpio_1_o_oval    = inspect_mode ? inspect_pc[1] : gpio_1_o_oval;
- assign  io_pads_gpio_1_o_oe      = inspect_mode ? 1'b1          : gpio_1_o_oe;
- assign  io_pads_gpio_1_o_ie      = inspect_mode ? 1'b0          : gpio_1_o_ie;
- assign  io_pads_gpio_1_o_pue     = inspect_mode ? 1'b0          : gpio_1_o_pue;
- assign  io_pads_gpio_1_o_ds      = inspect_mode ? 1'b1          : gpio_1_o_ds;
- assign  io_pads_gpio_2_o_oval    = inspect_mode ? inspect_pc[2] : gpio_2_o_oval;
- assign  io_pads_gpio_2_o_oe      = inspect_mode ? 1'b1          : gpio_2_o_oe;
- assign  io_pads_gpio_2_o_ie      = inspect_mode ? 1'b0          : gpio_2_o_ie;
- assign  io_pads_gpio_2_o_pue     = inspect_mode ? 1'b0          : gpio_2_o_pue;
- assign  io_pads_gpio_2_o_ds      = inspect_mode ? 1'b1          : gpio_2_o_ds;
- assign  io_pads_gpio_3_o_oval    = inspect_mode ? inspect_pc[3] : gpio_3_o_oval;
- assign  io_pads_gpio_3_o_oe      = inspect_mode ? 1'b1          : gpio_3_o_oe;
- assign  io_pads_gpio_3_o_ie      = inspect_mode ? 1'b0          : gpio_3_o_ie;
- assign  io_pads_gpio_3_o_pue     = inspect_mode ? 1'b0          : gpio_3_o_pue;
- assign  io_pads_gpio_3_o_ds      = inspect_mode ? 1'b1          : gpio_3_o_ds;
- assign  io_pads_gpio_4_o_oval    = inspect_mode ? inspect_pc[4] : gpio_4_o_oval;
- assign  io_pads_gpio_4_o_oe      = inspect_mode ? 1'b1          : gpio_4_o_oe;
- assign  io_pads_gpio_4_o_ie      = inspect_mode ? 1'b0          : gpio_4_o_ie;
- assign  io_pads_gpio_4_o_pue     = inspect_mode ? 1'b0          : gpio_4_o_pue;
- assign  io_pads_gpio_4_o_ds      = inspect_mode ? 1'b1          : gpio_4_o_ds;
- assign  io_pads_gpio_5_o_oval    = inspect_mode ? inspect_pc[5] : gpio_5_o_oval;
- assign  io_pads_gpio_5_o_oe      = inspect_mode ? 1'b1          : gpio_5_o_oe;
- assign  io_pads_gpio_5_o_ie      = inspect_mode ? 1'b0          : gpio_5_o_ie;
- assign  io_pads_gpio_5_o_pue     = inspect_mode ? 1'b0          : gpio_5_o_pue;
- assign  io_pads_gpio_5_o_ds      = inspect_mode ? 1'b1          : gpio_5_o_ds;
- assign  io_pads_gpio_6_o_oval    = inspect_mode ? inspect_pc[6] : gpio_6_o_oval;
- assign  io_pads_gpio_6_o_oe      = inspect_mode ? 1'b1          : gpio_6_o_oe;
- assign  io_pads_gpio_6_o_ie      = inspect_mode ? 1'b0          : gpio_6_o_ie;
- assign  io_pads_gpio_6_o_pue     = inspect_mode ? 1'b0          : gpio_6_o_pue;
- assign  io_pads_gpio_6_o_ds      = inspect_mode ? 1'b1          : gpio_6_o_ds;
- assign  io_pads_gpio_7_o_oval    = inspect_mode ? inspect_pc[7] : gpio_7_o_oval;
- assign  io_pads_gpio_7_o_oe      = inspect_mode ? 1'b1          : gpio_7_o_oe;
- assign  io_pads_gpio_7_o_ie      = inspect_mode ? 1'b0          : gpio_7_o_ie;
- assign  io_pads_gpio_7_o_pue     = inspect_mode ? 1'b0          : gpio_7_o_pue;
- assign  io_pads_gpio_7_o_ds      = inspect_mode ? 1'b1          : gpio_7_o_ds;
- assign  io_pads_gpio_8_o_oval    = inspect_mode ? inspect_pc[8] : gpio_8_o_oval;
- assign  io_pads_gpio_8_o_oe      = inspect_mode ? 1'b1          : gpio_8_o_oe;
- assign  io_pads_gpio_8_o_ie      = inspect_mode ? 1'b0          : gpio_8_o_ie;
- assign  io_pads_gpio_8_o_pue     = inspect_mode ? 1'b0          : gpio_8_o_pue;
- assign  io_pads_gpio_8_o_ds      = inspect_mode ? 1'b1          : gpio_8_o_ds;
- assign  io_pads_gpio_9_o_oval    = inspect_mode ? inspect_pc[9] : gpio_9_o_oval;
- assign  io_pads_gpio_9_o_oe      = inspect_mode ? 1'b1          : gpio_9_o_oe;
- assign  io_pads_gpio_9_o_ie      = inspect_mode ? 1'b0          : gpio_9_o_ie;
- assign  io_pads_gpio_9_o_pue     = inspect_mode ? 1'b0          : gpio_9_o_pue;
- assign  io_pads_gpio_9_o_ds      = inspect_mode ? 1'b1          : gpio_9_o_ds;
- assign  io_pads_gpio_10_o_oval   = inspect_mode ? inspect_pc[10]: gpio_10_o_oval;
- assign  io_pads_gpio_10_o_oe     = inspect_mode ? 1'b1          : gpio_10_o_oe;
- assign  io_pads_gpio_10_o_ie     = inspect_mode ? 1'b0          : gpio_10_o_ie;
- assign  io_pads_gpio_10_o_pue    = inspect_mode ? 1'b0          : gpio_10_o_pue;
- assign  io_pads_gpio_10_o_ds     = inspect_mode ? 1'b1          : gpio_10_o_ds;
- assign  io_pads_gpio_11_o_oval   = inspect_mode ? inspect_pc[11]: gpio_11_o_oval;
- assign  io_pads_gpio_11_o_oe     = inspect_mode ? 1'b1          : gpio_11_o_oe;
- assign  io_pads_gpio_11_o_ie     = inspect_mode ? 1'b0          : gpio_11_o_ie;
- assign  io_pads_gpio_11_o_pue    = inspect_mode ? 1'b0          : gpio_11_o_pue;
- assign  io_pads_gpio_11_o_ds     = inspect_mode ? 1'b1          : gpio_11_o_ds;
- assign  io_pads_gpio_12_o_oval   = inspect_mode ? inspect_pc[12]: gpio_12_o_oval;
- assign  io_pads_gpio_12_o_oe     = inspect_mode ? 1'b1          : gpio_12_o_oe;
- assign  io_pads_gpio_12_o_ie     = inspect_mode ? 1'b0          : gpio_12_o_ie;
- assign  io_pads_gpio_12_o_pue    = inspect_mode ? 1'b0          : gpio_12_o_pue;
- assign  io_pads_gpio_12_o_ds     = inspect_mode ? 1'b1          : gpio_12_o_ds;
- assign  io_pads_gpio_13_o_oval   = inspect_mode ? inspect_pc[13]: gpio_13_o_oval;
- assign  io_pads_gpio_13_o_oe     = inspect_mode ? 1'b1          : gpio_13_o_oe;
- assign  io_pads_gpio_13_o_ie     = inspect_mode ? 1'b0          : gpio_13_o_ie;
- assign  io_pads_gpio_13_o_pue    = inspect_mode ? 1'b0          : gpio_13_o_pue;
- assign  io_pads_gpio_13_o_ds     = inspect_mode ? 1'b1          : gpio_13_o_ds;
- assign  io_pads_gpio_14_o_oval   = inspect_mode ? inspect_pc[14]: gpio_14_o_oval;
- assign  io_pads_gpio_14_o_oe     = inspect_mode ? 1'b1          : gpio_14_o_oe;
- assign  io_pads_gpio_14_o_ie     = inspect_mode ? 1'b0          : gpio_14_o_ie;
- assign  io_pads_gpio_14_o_pue    = inspect_mode ? 1'b0          : gpio_14_o_pue;
- assign  io_pads_gpio_14_o_ds     = inspect_mode ? 1'b1          : gpio_14_o_ds;
- assign  io_pads_gpio_15_o_oval   = inspect_mode ? inspect_pc[15]: gpio_15_o_oval;
- assign  io_pads_gpio_15_o_oe     = inspect_mode ? 1'b1          : gpio_15_o_oe;
- assign  io_pads_gpio_15_o_ie     = inspect_mode ? 1'b0          : gpio_15_o_ie;
- assign  io_pads_gpio_15_o_pue    = inspect_mode ? 1'b0          : gpio_15_o_pue;
- assign  io_pads_gpio_15_o_ds     = inspect_mode ? 1'b1          : gpio_15_o_ds;
- assign  io_pads_gpio_16_o_oval   = inspect_mode ? inspect_pc[16]: gpio_16_o_oval;
- assign  io_pads_gpio_16_o_oe     = inspect_mode ? 1'b1          : gpio_16_o_oe;
- assign  io_pads_gpio_16_o_ie     = inspect_mode ? 1'b0          : gpio_16_o_ie;
- assign  io_pads_gpio_16_o_pue    = inspect_mode ? 1'b0          : gpio_16_o_pue;
- assign  io_pads_gpio_16_o_ds     = inspect_mode ? 1'b1          : gpio_16_o_ds;
- assign  io_pads_gpio_17_o_oval   = inspect_mode ? inspect_pc[17]: gpio_17_o_oval;
- assign  io_pads_gpio_17_o_oe     = inspect_mode ? 1'b1          : gpio_17_o_oe;
- assign  io_pads_gpio_17_o_ie     = inspect_mode ? 1'b0          : gpio_17_o_ie;
- assign  io_pads_gpio_17_o_pue    = inspect_mode ? 1'b0          : gpio_17_o_pue;
- assign  io_pads_gpio_17_o_ds     = inspect_mode ? 1'b1          : gpio_17_o_ds;
- assign  io_pads_gpio_18_o_oval   = inspect_mode ? inspect_pc[18]: gpio_18_o_oval;
- assign  io_pads_gpio_18_o_oe     = inspect_mode ? 1'b1          : gpio_18_o_oe;
- assign  io_pads_gpio_18_o_ie     = inspect_mode ? 1'b0          : gpio_18_o_ie;
- assign  io_pads_gpio_18_o_pue    = inspect_mode ? 1'b0          : gpio_18_o_pue;
- assign  io_pads_gpio_18_o_ds     = inspect_mode ? 1'b1          : gpio_18_o_ds;
- assign  io_pads_gpio_19_o_oval   = inspect_mode ? inspect_pc[19]: gpio_19_o_oval;
- assign  io_pads_gpio_19_o_oe     = inspect_mode ? 1'b1          : gpio_19_o_oe;
- assign  io_pads_gpio_19_o_ie     = inspect_mode ? 1'b0          : gpio_19_o_ie;
- assign  io_pads_gpio_19_o_pue    = inspect_mode ? 1'b0          : gpio_19_o_pue;
- assign  io_pads_gpio_19_o_ds     = inspect_mode ? 1'b1          : gpio_19_o_ds;
- assign  io_pads_gpio_20_o_oval   = inspect_mode ? inspect_pc[20]: gpio_20_o_oval;
- assign  io_pads_gpio_20_o_oe     = inspect_mode ? 1'b1          : gpio_20_o_oe;
- assign  io_pads_gpio_20_o_ie     = inspect_mode ? 1'b0          : gpio_20_o_ie;
- assign  io_pads_gpio_20_o_pue    = inspect_mode ? 1'b0          : gpio_20_o_pue;
- assign  io_pads_gpio_20_o_ds     = inspect_mode ? 1'b1          : gpio_20_o_ds;
- assign  io_pads_gpio_21_o_oval   = inspect_mode ? inspect_pc[21]: gpio_21_o_oval;
- assign  io_pads_gpio_21_o_oe     = inspect_mode ? 1'b1          : gpio_21_o_oe;
- assign  io_pads_gpio_21_o_ie     = inspect_mode ? 1'b0          : gpio_21_o_ie;
- assign  io_pads_gpio_21_o_pue    = inspect_mode ? 1'b0          : gpio_21_o_pue;
- assign  io_pads_gpio_21_o_ds     = inspect_mode ? 1'b1          : gpio_21_o_ds;
-
- assign  io_pads_gpio_22_o_oval   = inspect_mode ? inspect_mem_cmd_valid : gpio_22_o_oval;
- assign  io_pads_gpio_22_o_oe     = inspect_mode ? 1'b1                  : gpio_22_o_oe;
- assign  io_pads_gpio_22_o_ie     = inspect_mode ? 1'b0                  : gpio_22_o_ie;
- assign  io_pads_gpio_22_o_pue    = inspect_mode ? 1'b0                  : gpio_22_o_pue;
- assign  io_pads_gpio_22_o_ds     = inspect_mode ? 1'b1                  : gpio_22_o_ds;
- assign  io_pads_gpio_23_o_oval   = inspect_mode ? inspect_mem_cmd_ready : gpio_23_o_oval;
- assign  io_pads_gpio_23_o_oe     = inspect_mode ? 1'b1                  : gpio_23_o_oe;
- assign  io_pads_gpio_23_o_ie     = inspect_mode ? 1'b0                  : gpio_23_o_ie;
- assign  io_pads_gpio_23_o_pue    = inspect_mode ? 1'b0                  : gpio_23_o_pue;
- assign  io_pads_gpio_23_o_ds     = inspect_mode ? 1'b1                  : gpio_23_o_ds;
- assign  io_pads_gpio_24_o_oval   = inspect_mode ? inspect_mem_rsp_valid : gpio_24_o_oval;
- assign  io_pads_gpio_24_o_oe     = inspect_mode ? 1'b1                  : gpio_24_o_oe;
- assign  io_pads_gpio_24_o_ie     = inspect_mode ? 1'b0                  : gpio_24_o_ie;
- assign  io_pads_gpio_24_o_pue    = inspect_mode ? 1'b0                  : gpio_24_o_pue;
- assign  io_pads_gpio_24_o_ds     = inspect_mode ? 1'b1                  : gpio_24_o_ds;
- assign  io_pads_gpio_25_o_oval   = inspect_mode ? inspect_mem_rsp_ready : gpio_25_o_oval;
- assign  io_pads_gpio_25_o_oe     = inspect_mode ? 1'b1                  : gpio_25_o_oe;
- assign  io_pads_gpio_25_o_ie     = inspect_mode ? 1'b0                  : gpio_25_o_ie;
- assign  io_pads_gpio_25_o_pue    = inspect_mode ? 1'b0                  : gpio_25_o_pue;
- assign  io_pads_gpio_25_o_ds     = inspect_mode ? 1'b1                  : gpio_25_o_ds;
- assign  io_pads_gpio_26_o_oval   = inspect_mode ? inspect_jtag_clk      : gpio_26_o_oval;
- assign  io_pads_gpio_26_o_oe     = inspect_mode ? 1'b1                  : gpio_26_o_oe;
- assign  io_pads_gpio_26_o_ie     = inspect_mode ? 1'b0                  : gpio_26_o_ie;
- assign  io_pads_gpio_26_o_pue    = inspect_mode ? 1'b0                  : gpio_26_o_pue;
- assign  io_pads_gpio_26_o_ds     = inspect_mode ? 1'b1                  : gpio_26_o_ds;
- assign  io_pads_gpio_27_o_oval   = inspect_mode ? inspect_core_clk      : gpio_27_o_oval;
- assign  io_pads_gpio_27_o_oe     = inspect_mode ? 1'b1                  : gpio_27_o_oe;
- assign  io_pads_gpio_27_o_ie     = inspect_mode ? 1'b0                  : gpio_27_o_ie;
- assign  io_pads_gpio_27_o_pue    = inspect_mode ? 1'b0                  : gpio_27_o_pue;
- assign  io_pads_gpio_27_o_ds     = inspect_mode ? 1'b1                  : gpio_27_o_ds;
- assign  io_pads_gpio_28_o_oval   = inspect_mode ? inspect_por_rst       : gpio_28_o_oval;
- assign  io_pads_gpio_28_o_oe     = inspect_mode ? 1'b1                  : gpio_28_o_oe;
- assign  io_pads_gpio_28_o_ie     = inspect_mode ? 1'b0                  : gpio_28_o_ie;
- assign  io_pads_gpio_28_o_pue    = inspect_mode ? 1'b0                  : gpio_28_o_pue;
- assign  io_pads_gpio_28_o_ds     = inspect_mode ? 1'b1                  : gpio_28_o_ds;
- assign  io_pads_gpio_29_o_oval   = inspect_mode ? inspect_32k_clk       : gpio_29_o_oval;
- assign  io_pads_gpio_29_o_oe     = inspect_mode ? 1'b1                  : gpio_29_o_oe;
- assign  io_pads_gpio_29_o_ie     = inspect_mode ? 1'b0                  : gpio_29_o_ie;
- assign  io_pads_gpio_29_o_pue    = inspect_mode ? 1'b0                  : gpio_29_o_pue;
- assign  io_pads_gpio_29_o_ds     = inspect_mode ? 1'b1                  : gpio_29_o_ds;
- assign  io_pads_gpio_30_o_oval   = inspect_mode ? inspect_16m_clk       : gpio_30_o_oval;
- assign  io_pads_gpio_30_o_oe     = inspect_mode ? 1'b1                  : gpio_30_o_oe;
- assign  io_pads_gpio_30_o_ie     = inspect_mode ? 1'b0                  : gpio_30_o_ie;
- assign  io_pads_gpio_30_o_pue    = inspect_mode ? 1'b0                  : gpio_30_o_pue;
- assign  io_pads_gpio_30_o_ds     = inspect_mode ? 1'b1                  : gpio_30_o_ds;
- assign  io_pads_gpio_31_o_oval   = inspect_mode ? inspect_pll_clk       : gpio_31_o_oval;
- assign  io_pads_gpio_31_o_oe     = inspect_mode ? 1'b1                  : gpio_31_o_oe;
- assign  io_pads_gpio_31_o_ie     = inspect_mode ? 1'b0                  : gpio_31_o_ie;
- assign  io_pads_gpio_31_o_pue    = inspect_mode ? 1'b0                  : gpio_31_o_pue;
- assign  io_pads_gpio_31_o_ds     = inspect_mode ? 1'b1                  : gpio_31_o_ds;
-
+ assign  io_pads_gpio_o_oe[0]      = inspect_mode ? 1'b1          : gpio_o_oe[0];
+ assign  io_pads_gpio_o_oe[1]      = inspect_mode ? 1'b1          : gpio_o_oe[1];
+ assign  io_pads_gpio_o_oe[2]      = inspect_mode ? 1'b1          : gpio_o_oe[2];
+ assign  io_pads_gpio_o_oe[3]      = inspect_mode ? 1'b1          : gpio_o_oe[3];
+ assign  io_pads_gpio_o_oe[4]      = inspect_mode ? 1'b1          : gpio_o_oe[4];
+ assign  io_pads_gpio_o_oe[5]      = inspect_mode ? 1'b1          : gpio_o_oe[5];
+ assign  io_pads_gpio_o_oe[6]      = inspect_mode ? 1'b1          : gpio_o_oe[6];
+ assign  io_pads_gpio_o_oe[7]      = inspect_mode ? 1'b1          : gpio_o_oe[7];
+ assign  io_pads_gpio_o_oe[8]      = inspect_mode ? 1'b1          : gpio_o_oe[8];
+ assign  io_pads_gpio_o_oe[9]      = inspect_mode ? 1'b1          : gpio_o_oe[9];
+ assign  io_pads_gpio_o_oe[10]     = inspect_mode ? 1'b1          : gpio_o_oe[10];
+ assign  io_pads_gpio_o_oe[11]     = inspect_mode ? 1'b1          : gpio_o_oe[11];
+ assign  io_pads_gpio_o_oe[12]     = inspect_mode ? 1'b1          : gpio_o_oe[12];
+ assign  io_pads_gpio_o_oe[13]     = inspect_mode ? 1'b1          : gpio_o_oe[13];
+ assign  io_pads_gpio_o_oe[14]     = inspect_mode ? 1'b1          : gpio_o_oe[14];
+ assign  io_pads_gpio_o_oe[15]     = inspect_mode ? 1'b1          : gpio_o_oe[15];
+ assign  io_pads_gpio_o_oe[16]     = inspect_mode ? 1'b1          : gpio_o_oe[16];
+ assign  io_pads_gpio_o_oe[17]     = inspect_mode ? 1'b1          : gpio_o_oe[17];
+ assign  io_pads_gpio_o_oe[18]     = inspect_mode ? 1'b1          : gpio_o_oe[18];
+ assign  io_pads_gpio_o_oe[19]     = inspect_mode ? 1'b1          : gpio_o_oe[19];
+ assign  io_pads_gpio_o_oe[20]     = inspect_mode ? 1'b1          : gpio_o_oe[20];
+ assign  io_pads_gpio_o_oe[21]     = inspect_mode ? 1'b1          : gpio_o_oe[21];
+ assign  io_pads_gpio_o_oe[22]     = inspect_mode ? 1'b1          : gpio_o_oe[22];
+ assign  io_pads_gpio_o_oe[23]     = inspect_mode ? 1'b1          : gpio_o_oe[23];
+ assign  io_pads_gpio_o_oe[24]     = inspect_mode ? 1'b1          : gpio_o_oe[24];
+ assign  io_pads_gpio_o_oe[25]     = inspect_mode ? 1'b1          : gpio_o_oe[25];
+ assign  io_pads_gpio_o_oe[26]     = inspect_mode ? 1'b1          : gpio_o_oe[26];
+ assign  io_pads_gpio_o_oe[27]     = inspect_mode ? 1'b1          : gpio_o_oe[27];
+ assign  io_pads_gpio_o_oe[28]     = inspect_mode ? 1'b1          : gpio_o_oe[28];
+ assign  io_pads_gpio_o_oe[29]     = inspect_mode ? 1'b1          : gpio_o_oe[29];
+ assign  io_pads_gpio_o_oe[30]     = inspect_mode ? 1'b1          : gpio_o_oe[30];
+ assign  io_pads_gpio_o_oe[31]     = inspect_mode ? 1'b1          : gpio_o_oe[31];
+ 
+  
+ assign  io_pads_gpio_o_oval[0]    = inspect_mode ? inspect_pc[0]         : gpio_o_oval[0];
+ assign  io_pads_gpio_o_oval[1]    = inspect_mode ? inspect_pc[1]         : gpio_o_oval[1];
+ assign  io_pads_gpio_o_oval[2]    = inspect_mode ? inspect_pc[2]         : gpio_o_oval[2];
+ assign  io_pads_gpio_o_oval[3]    = inspect_mode ? inspect_pc[3]         : gpio_o_oval[3];
+ assign  io_pads_gpio_o_oval[4]    = inspect_mode ? inspect_pc[4]         : gpio_o_oval[4];
+ assign  io_pads_gpio_o_oval[5]    = inspect_mode ? inspect_pc[5]         : gpio_o_oval[5];
+ assign  io_pads_gpio_o_oval[6]    = inspect_mode ? inspect_pc[6]         : gpio_o_oval[6];
+ assign  io_pads_gpio_o_oval[7]    = inspect_mode ? inspect_pc[7]         : gpio_o_oval[7];
+ assign  io_pads_gpio_o_oval[8]    = inspect_mode ? inspect_pc[8]         : gpio_o_oval[8];
+ assign  io_pads_gpio_o_oval[9]    = inspect_mode ? inspect_pc[9]         : gpio_o_oval[9];
+ assign  io_pads_gpio_o_oval[10]   = inspect_mode ? inspect_pc[10]        : gpio_o_oval[10];
+ assign  io_pads_gpio_o_oval[11]   = inspect_mode ? inspect_pc[11]        : gpio_o_oval[11];
+ assign  io_pads_gpio_o_oval[12]   = inspect_mode ? inspect_pc[12]        : gpio_o_oval[12];
+ assign  io_pads_gpio_o_oval[13]   = inspect_mode ? inspect_pc[13]        : gpio_o_oval[13];
+ assign  io_pads_gpio_o_oval[14]   = inspect_mode ? inspect_pc[14]        : gpio_o_oval[14];
+ assign  io_pads_gpio_o_oval[15]   = inspect_mode ? inspect_pc[15]        : gpio_o_oval[15];
+ assign  io_pads_gpio_o_oval[16]   = inspect_mode ? inspect_pc[16]        : gpio_o_oval[16];
+ assign  io_pads_gpio_o_oval[17]   = inspect_mode ? inspect_pc[17]        : gpio_o_oval[17];
+ assign  io_pads_gpio_o_oval[18]   = inspect_mode ? inspect_pc[18]        : gpio_o_oval[18];
+ assign  io_pads_gpio_o_oval[19]   = inspect_mode ? inspect_pc[19]        : gpio_o_oval[19];
+ assign  io_pads_gpio_o_oval[20]   = inspect_mode ? inspect_pc[20]        : gpio_o_oval[20];
+ assign  io_pads_gpio_o_oval[21]   = inspect_mode ? inspect_pc[21]        : gpio_o_oval[21];
+ assign  io_pads_gpio_o_oval[22]   = inspect_mode ? inspect_mem_cmd_valid : gpio_o_oval[22];
+ assign  io_pads_gpio_o_oval[23]   = inspect_mode ? inspect_mem_cmd_ready : gpio_o_oval[23];
+ assign  io_pads_gpio_o_oval[24]   = inspect_mode ? inspect_mem_rsp_valid : gpio_o_oval[24];
+ assign  io_pads_gpio_o_oval[25]   = inspect_mode ? inspect_mem_rsp_ready : gpio_o_oval[25];
+ assign  io_pads_gpio_o_oval[26]   = inspect_mode ? inspect_jtag_clk      : gpio_o_oval[26];
+ assign  io_pads_gpio_o_oval[27]   = inspect_mode ? inspect_core_clk      : gpio_o_oval[27];
+ assign  io_pads_gpio_o_oval[28]   = inspect_mode ? inspect_por_rst       : gpio_o_oval[28];
+ assign  io_pads_gpio_o_oval[29]   = inspect_mode ? inspect_32k_clk       : gpio_o_oval[29];
+ assign  io_pads_gpio_o_oval[30]   = inspect_mode ? inspect_16m_clk       : gpio_o_oval[30];
+ assign  io_pads_gpio_o_oval[31]   = inspect_mode ? inspect_pll_clk       : gpio_o_oval[31];
 
   
   //This is to reset the main domain
@@ -1073,60 +699,17 @@ module e203_subsys_main(
 
   wire  qspi0_irq; 
   wire  qspi1_irq;
-  wire  qspi2_irq;
 
   wire  uart0_irq;                
-  wire  uart1_irq;                
 
-  wire  pwm0_irq_0;
-  wire  pwm0_irq_1;
-  wire  pwm0_irq_2;
-  wire  pwm0_irq_3;
+  wire  pwm_irq_0;
+  wire  pwm_irq_1;
+  wire  pwm_irq_2;
+  wire  pwm_irq_3;
 
-  wire  pwm1_irq_0;
-  wire  pwm1_irq_1;
-  wire  pwm1_irq_2;
-  wire  pwm1_irq_3;
+  wire  i2c0_mst_irq;
 
-  wire  pwm2_irq_0;
-  wire  pwm2_irq_1;
-  wire  pwm2_irq_2;
-  wire  pwm2_irq_3;
-
-  wire  i2c_mst_irq;
-
-  wire  gpio_irq_0;
-  wire  gpio_irq_1;
-  wire  gpio_irq_2;
-  wire  gpio_irq_3;
-  wire  gpio_irq_4;
-  wire  gpio_irq_5;
-  wire  gpio_irq_6;
-  wire  gpio_irq_7;
-  wire  gpio_irq_8;
-  wire  gpio_irq_9;
-  wire  gpio_irq_10;
-  wire  gpio_irq_11;
-  wire  gpio_irq_12;
-  wire  gpio_irq_13;
-  wire  gpio_irq_14;
-  wire  gpio_irq_15;
-  wire  gpio_irq_16;
-  wire  gpio_irq_17;
-  wire  gpio_irq_18;
-  wire  gpio_irq_19;
-  wire  gpio_irq_20;
-  wire  gpio_irq_21;
-  wire  gpio_irq_22;
-  wire  gpio_irq_23;
-  wire  gpio_irq_24;
-  wire  gpio_irq_25;
-  wire  gpio_irq_26;
-  wire  gpio_irq_27;
-  wire  gpio_irq_28;
-  wire  gpio_irq_29;
-  wire  gpio_irq_30;
-  wire  gpio_irq_31;
+  wire  gpio_irq;
 
 
  e203_subsys_plic u_e203_subsys_plic(
@@ -1149,60 +732,60 @@ module e203_subsys_main(
 
     .qspi0_irq              (qspi0_irq  ), 
     .qspi1_irq              (qspi1_irq  ),
-    .qspi2_irq              (qspi2_irq  ),
+    .qspi2_irq              (1'b0  ),
                                         
     .uart0_irq              (uart0_irq  ),                
-    .uart1_irq              (uart1_irq  ),                
+    .uart1_irq              (1'b0  ),                
                                         
-    .pwm0_irq_0             (pwm0_irq_0 ),
-    .pwm0_irq_1             (pwm0_irq_1 ),
-    .pwm0_irq_2             (pwm0_irq_2 ),
-    .pwm0_irq_3             (pwm0_irq_3 ),
+    .pwm0_irq_0             (pwm_irq_0 ),
+    .pwm0_irq_1             (pwm_irq_1 ),
+    .pwm0_irq_2             (pwm_irq_2 ),
+    .pwm0_irq_3             (pwm_irq_3 ),
                                         
-    .pwm1_irq_0             (pwm1_irq_0 ),
-    .pwm1_irq_1             (pwm1_irq_1 ),
-    .pwm1_irq_2             (pwm1_irq_2 ),
-    .pwm1_irq_3             (pwm1_irq_3 ),
+    .pwm1_irq_0             (1'b0 ),
+    .pwm1_irq_1             (1'b0 ),
+    .pwm1_irq_2             (1'b0 ),
+    .pwm1_irq_3             (1'b0 ),
+                       
+    .pwm2_irq_0             (1'b0 ),
+    .pwm2_irq_1             (1'b0 ),
+    .pwm2_irq_2             (1'b0 ),
+    .pwm2_irq_3             (1'b0 ),
                                         
-    .pwm2_irq_0             (pwm2_irq_0 ),
-    .pwm2_irq_1             (pwm2_irq_1 ),
-    .pwm2_irq_2             (pwm2_irq_2 ),
-    .pwm2_irq_3             (pwm2_irq_3 ),
-                                        
-    .i2c_mst_irq            (i2c_mst_irq),
+    .i2c_mst_irq            (i2c0_mst_irq),
 
-    .gpio_irq_0             (gpio_irq_0 ),
-    .gpio_irq_1             (gpio_irq_1 ),
-    .gpio_irq_2             (gpio_irq_2 ),
-    .gpio_irq_3             (gpio_irq_3 ),
-    .gpio_irq_4             (gpio_irq_4 ),
-    .gpio_irq_5             (gpio_irq_5 ),
-    .gpio_irq_6             (gpio_irq_6 ),
-    .gpio_irq_7             (gpio_irq_7 ),
-    .gpio_irq_8             (gpio_irq_8 ),
-    .gpio_irq_9             (gpio_irq_9 ),
-    .gpio_irq_10            (gpio_irq_10),
-    .gpio_irq_11            (gpio_irq_11),
-    .gpio_irq_12            (gpio_irq_12),
-    .gpio_irq_13            (gpio_irq_13),
-    .gpio_irq_14            (gpio_irq_14),
-    .gpio_irq_15            (gpio_irq_15),
-    .gpio_irq_16            (gpio_irq_16),
-    .gpio_irq_17            (gpio_irq_17),
-    .gpio_irq_18            (gpio_irq_18),
-    .gpio_irq_19            (gpio_irq_19),
-    .gpio_irq_20            (gpio_irq_20),
-    .gpio_irq_21            (gpio_irq_21),
-    .gpio_irq_22            (gpio_irq_22),
-    .gpio_irq_23            (gpio_irq_23),
-    .gpio_irq_24            (gpio_irq_24),
-    .gpio_irq_25            (gpio_irq_25),
-    .gpio_irq_26            (gpio_irq_26),
-    .gpio_irq_27            (gpio_irq_27),
-    .gpio_irq_28            (gpio_irq_28),
-    .gpio_irq_29            (gpio_irq_29),
-    .gpio_irq_30            (gpio_irq_30),
-    .gpio_irq_31            (gpio_irq_31),
+    .gpio_irq_0             (gpio_irq ),
+    .gpio_irq_1             (1'b0),
+    .gpio_irq_2             (1'b0),
+    .gpio_irq_3             (1'b0),
+    .gpio_irq_4             (1'b0),
+    .gpio_irq_5             (1'b0),
+    .gpio_irq_6             (1'b0),
+    .gpio_irq_7             (1'b0),
+    .gpio_irq_8             (1'b0),
+    .gpio_irq_9             (1'b0),
+    .gpio_irq_10            (1'b0),
+    .gpio_irq_11            (1'b0),
+    .gpio_irq_12            (1'b0),
+    .gpio_irq_13            (1'b0),
+    .gpio_irq_14            (1'b0),
+    .gpio_irq_15            (1'b0),
+    .gpio_irq_16            (1'b0),
+    .gpio_irq_17            (1'b0),
+    .gpio_irq_18            (1'b0),
+    .gpio_irq_19            (1'b0),
+    .gpio_irq_20            (1'b0),
+    .gpio_irq_21            (1'b0),
+    .gpio_irq_22            (1'b0),
+    .gpio_irq_23            (1'b0),
+    .gpio_irq_24            (1'b0),
+    .gpio_irq_25            (1'b0),
+    .gpio_irq_26            (1'b0),
+    .gpio_irq_27            (1'b0),
+    .gpio_irq_28            (1'b0),
+    .gpio_irq_29            (1'b0),
+    .gpio_irq_30            (1'b0),
+    .gpio_irq_31            (1'b0),
 
     .clk                    (hfclk  ),
     .rst_n                  (per_rst_n) 
@@ -1334,293 +917,130 @@ e203_subsys_clint u_e203_subsys_clint(
     .otp_ro_icb_rsp_ready    (otp_ro_icb_rsp_ready  ),
     .otp_ro_icb_rsp_rdata    (otp_ro_icb_rsp_rdata  ),
 
-    .io_pads_gpio_0_i_ival      (io_pads_gpio_0_i_ival),
-    .io_pads_gpio_0_o_oval      (gpio_0_o_oval),
-    .io_pads_gpio_0_o_oe        (gpio_0_o_oe),
-    .io_pads_gpio_0_o_ie        (gpio_0_o_ie),
-    .io_pads_gpio_0_o_pue       (gpio_0_o_pue),
-    .io_pads_gpio_0_o_ds        (gpio_0_o_ds),
-    .io_pads_gpio_1_i_ival      (io_pads_gpio_1_i_ival),
-    .io_pads_gpio_1_o_oval      (gpio_1_o_oval),
-    .io_pads_gpio_1_o_oe        (gpio_1_o_oe),
-    .io_pads_gpio_1_o_ie        (gpio_1_o_ie),
-    .io_pads_gpio_1_o_pue       (gpio_1_o_pue),
-    .io_pads_gpio_1_o_ds        (gpio_1_o_ds),
-    .io_pads_gpio_2_i_ival      (io_pads_gpio_2_i_ival),
-    .io_pads_gpio_2_o_oval      (gpio_2_o_oval),
-    .io_pads_gpio_2_o_oe        (gpio_2_o_oe),
-    .io_pads_gpio_2_o_ie        (gpio_2_o_ie),
-    .io_pads_gpio_2_o_pue       (gpio_2_o_pue),
-    .io_pads_gpio_2_o_ds        (gpio_2_o_ds),
-    .io_pads_gpio_3_i_ival      (io_pads_gpio_3_i_ival),
-    .io_pads_gpio_3_o_oval      (gpio_3_o_oval),
-    .io_pads_gpio_3_o_oe        (gpio_3_o_oe),
-    .io_pads_gpio_3_o_ie        (gpio_3_o_ie),
-    .io_pads_gpio_3_o_pue       (gpio_3_o_pue),
-    .io_pads_gpio_3_o_ds        (gpio_3_o_ds),
-    .io_pads_gpio_4_i_ival      (io_pads_gpio_4_i_ival),
-    .io_pads_gpio_4_o_oval      (gpio_4_o_oval),
-    .io_pads_gpio_4_o_oe        (gpio_4_o_oe),
-    .io_pads_gpio_4_o_ie        (gpio_4_o_ie),
-    .io_pads_gpio_4_o_pue       (gpio_4_o_pue),
-    .io_pads_gpio_4_o_ds        (gpio_4_o_ds),
-    .io_pads_gpio_5_i_ival      (io_pads_gpio_5_i_ival),
-    .io_pads_gpio_5_o_oval      (gpio_5_o_oval),
-    .io_pads_gpio_5_o_oe        (gpio_5_o_oe),
-    .io_pads_gpio_5_o_ie        (gpio_5_o_ie),
-    .io_pads_gpio_5_o_pue       (gpio_5_o_pue),
-    .io_pads_gpio_5_o_ds        (gpio_5_o_ds),
-    .io_pads_gpio_6_i_ival      (io_pads_gpio_6_i_ival),
-    .io_pads_gpio_6_o_oval      (gpio_6_o_oval),
-    .io_pads_gpio_6_o_oe        (gpio_6_o_oe),
-    .io_pads_gpio_6_o_ie        (gpio_6_o_ie),
-    .io_pads_gpio_6_o_pue       (gpio_6_o_pue),
-    .io_pads_gpio_6_o_ds        (gpio_6_o_ds),
-    .io_pads_gpio_7_i_ival      (io_pads_gpio_7_i_ival),
-    .io_pads_gpio_7_o_oval      (gpio_7_o_oval),
-    .io_pads_gpio_7_o_oe        (gpio_7_o_oe),
-    .io_pads_gpio_7_o_ie        (gpio_7_o_ie),
-    .io_pads_gpio_7_o_pue       (gpio_7_o_pue),
-    .io_pads_gpio_7_o_ds        (gpio_7_o_ds),
-    .io_pads_gpio_8_i_ival      (io_pads_gpio_8_i_ival),
-    .io_pads_gpio_8_o_oval      (gpio_8_o_oval),
-    .io_pads_gpio_8_o_oe        (gpio_8_o_oe),
-    .io_pads_gpio_8_o_ie        (gpio_8_o_ie),
-    .io_pads_gpio_8_o_pue       (gpio_8_o_pue),
-    .io_pads_gpio_8_o_ds        (gpio_8_o_ds),
-    .io_pads_gpio_9_i_ival      (io_pads_gpio_9_i_ival),
-    .io_pads_gpio_9_o_oval      (gpio_9_o_oval),
-    .io_pads_gpio_9_o_oe        (gpio_9_o_oe),
-    .io_pads_gpio_9_o_ie        (gpio_9_o_ie),
-    .io_pads_gpio_9_o_pue       (gpio_9_o_pue),
-    .io_pads_gpio_9_o_ds        (gpio_9_o_ds),
-    .io_pads_gpio_10_i_ival     (io_pads_gpio_10_i_ival),
-    .io_pads_gpio_10_o_oval     (gpio_10_o_oval),
-    .io_pads_gpio_10_o_oe       (gpio_10_o_oe),
-    .io_pads_gpio_10_o_ie       (gpio_10_o_ie),
-    .io_pads_gpio_10_o_pue      (gpio_10_o_pue),
-    .io_pads_gpio_10_o_ds       (gpio_10_o_ds),
-    .io_pads_gpio_11_i_ival     (io_pads_gpio_11_i_ival),
-    .io_pads_gpio_11_o_oval     (gpio_11_o_oval),
-    .io_pads_gpio_11_o_oe       (gpio_11_o_oe),
-    .io_pads_gpio_11_o_ie       (gpio_11_o_ie),
-    .io_pads_gpio_11_o_pue      (gpio_11_o_pue),
-    .io_pads_gpio_11_o_ds       (gpio_11_o_ds),
-    .io_pads_gpio_12_i_ival     (io_pads_gpio_12_i_ival),
-    .io_pads_gpio_12_o_oval     (gpio_12_o_oval),
-    .io_pads_gpio_12_o_oe       (gpio_12_o_oe),
-    .io_pads_gpio_12_o_ie       (gpio_12_o_ie),
-    .io_pads_gpio_12_o_pue      (gpio_12_o_pue),
-    .io_pads_gpio_12_o_ds       (gpio_12_o_ds),
-    .io_pads_gpio_13_i_ival     (io_pads_gpio_13_i_ival),
-    .io_pads_gpio_13_o_oval     (gpio_13_o_oval),
-    .io_pads_gpio_13_o_oe       (gpio_13_o_oe),
-    .io_pads_gpio_13_o_ie       (gpio_13_o_ie),
-    .io_pads_gpio_13_o_pue      (gpio_13_o_pue),
-    .io_pads_gpio_13_o_ds       (gpio_13_o_ds),
-    .io_pads_gpio_14_i_ival     (io_pads_gpio_14_i_ival),
-    .io_pads_gpio_14_o_oval     (gpio_14_o_oval),
-    .io_pads_gpio_14_o_oe       (gpio_14_o_oe),
-    .io_pads_gpio_14_o_ie       (gpio_14_o_ie),
-    .io_pads_gpio_14_o_pue      (gpio_14_o_pue),
-    .io_pads_gpio_14_o_ds       (gpio_14_o_ds),
-    .io_pads_gpio_15_i_ival     (io_pads_gpio_15_i_ival),
-    .io_pads_gpio_15_o_oval     (gpio_15_o_oval),
-    .io_pads_gpio_15_o_oe       (gpio_15_o_oe),
-    .io_pads_gpio_15_o_ie       (gpio_15_o_ie),
-    .io_pads_gpio_15_o_pue      (gpio_15_o_pue),
-    .io_pads_gpio_15_o_ds       (gpio_15_o_ds),
-    .io_pads_gpio_16_i_ival     (io_pads_gpio_16_i_ival),
-    .io_pads_gpio_16_o_oval     (gpio_16_o_oval),
-    .io_pads_gpio_16_o_oe       (gpio_16_o_oe),
-    .io_pads_gpio_16_o_ie       (gpio_16_o_ie),
-    .io_pads_gpio_16_o_pue      (gpio_16_o_pue),
-    .io_pads_gpio_16_o_ds       (gpio_16_o_ds),
-    .io_pads_gpio_17_i_ival     (io_pads_gpio_17_i_ival),
-    .io_pads_gpio_17_o_oval     (gpio_17_o_oval),
-    .io_pads_gpio_17_o_oe       (gpio_17_o_oe),
-    .io_pads_gpio_17_o_ie       (gpio_17_o_ie),
-    .io_pads_gpio_17_o_pue      (gpio_17_o_pue),
-    .io_pads_gpio_17_o_ds       (gpio_17_o_ds),
-    .io_pads_gpio_18_i_ival     (io_pads_gpio_18_i_ival),
-    .io_pads_gpio_18_o_oval     (gpio_18_o_oval),
-    .io_pads_gpio_18_o_oe       (gpio_18_o_oe),
-    .io_pads_gpio_18_o_ie       (gpio_18_o_ie),
-    .io_pads_gpio_18_o_pue      (gpio_18_o_pue),
-    .io_pads_gpio_18_o_ds       (gpio_18_o_ds),
-    .io_pads_gpio_19_i_ival     (io_pads_gpio_19_i_ival),
-    .io_pads_gpio_19_o_oval     (gpio_19_o_oval),
-    .io_pads_gpio_19_o_oe       (gpio_19_o_oe),
-    .io_pads_gpio_19_o_ie       (gpio_19_o_ie),
-    .io_pads_gpio_19_o_pue      (gpio_19_o_pue),
-    .io_pads_gpio_19_o_ds       (gpio_19_o_ds),
-    .io_pads_gpio_20_i_ival     (io_pads_gpio_20_i_ival),
-    .io_pads_gpio_20_o_oval     (gpio_20_o_oval),
-    .io_pads_gpio_20_o_oe       (gpio_20_o_oe),
-    .io_pads_gpio_20_o_ie       (gpio_20_o_ie),
-    .io_pads_gpio_20_o_pue      (gpio_20_o_pue),
-    .io_pads_gpio_20_o_ds       (gpio_20_o_ds),
-    .io_pads_gpio_21_i_ival     (io_pads_gpio_21_i_ival),
-    .io_pads_gpio_21_o_oval     (gpio_21_o_oval),
-    .io_pads_gpio_21_o_oe       (gpio_21_o_oe),
-    .io_pads_gpio_21_o_ie       (gpio_21_o_ie),
-    .io_pads_gpio_21_o_pue      (gpio_21_o_pue),
-    .io_pads_gpio_21_o_ds       (gpio_21_o_ds),
-    .io_pads_gpio_22_i_ival     (io_pads_gpio_22_i_ival),
-    .io_pads_gpio_22_o_oval     (gpio_22_o_oval),
-    .io_pads_gpio_22_o_oe       (gpio_22_o_oe),
-    .io_pads_gpio_22_o_ie       (gpio_22_o_ie),
-    .io_pads_gpio_22_o_pue      (gpio_22_o_pue),
-    .io_pads_gpio_22_o_ds       (gpio_22_o_ds),
-    .io_pads_gpio_23_i_ival     (io_pads_gpio_23_i_ival),
-    .io_pads_gpio_23_o_oval     (gpio_23_o_oval),
-    .io_pads_gpio_23_o_oe       (gpio_23_o_oe),
-    .io_pads_gpio_23_o_ie       (gpio_23_o_ie),
-    .io_pads_gpio_23_o_pue      (gpio_23_o_pue),
-    .io_pads_gpio_23_o_ds       (gpio_23_o_ds),
-    .io_pads_gpio_24_i_ival     (io_pads_gpio_24_i_ival),
-    .io_pads_gpio_24_o_oval     (gpio_24_o_oval),
-    .io_pads_gpio_24_o_oe       (gpio_24_o_oe),
-    .io_pads_gpio_24_o_ie       (gpio_24_o_ie),
-    .io_pads_gpio_24_o_pue      (gpio_24_o_pue),
-    .io_pads_gpio_24_o_ds       (gpio_24_o_ds),
-    .io_pads_gpio_25_i_ival     (io_pads_gpio_25_i_ival),
-    .io_pads_gpio_25_o_oval     (gpio_25_o_oval),
-    .io_pads_gpio_25_o_oe       (gpio_25_o_oe),
-    .io_pads_gpio_25_o_ie       (gpio_25_o_ie),
-    .io_pads_gpio_25_o_pue      (gpio_25_o_pue),
-    .io_pads_gpio_25_o_ds       (gpio_25_o_ds),
-    .io_pads_gpio_26_i_ival     (io_pads_gpio_26_i_ival),
-    .io_pads_gpio_26_o_oval     (gpio_26_o_oval),
-    .io_pads_gpio_26_o_oe       (gpio_26_o_oe),
-    .io_pads_gpio_26_o_ie       (gpio_26_o_ie),
-    .io_pads_gpio_26_o_pue      (gpio_26_o_pue),
-    .io_pads_gpio_26_o_ds       (gpio_26_o_ds),
-    .io_pads_gpio_27_i_ival     (io_pads_gpio_27_i_ival),
-    .io_pads_gpio_27_o_oval     (gpio_27_o_oval),
-    .io_pads_gpio_27_o_oe       (gpio_27_o_oe),
-    .io_pads_gpio_27_o_ie       (gpio_27_o_ie),
-    .io_pads_gpio_27_o_pue      (gpio_27_o_pue),
-    .io_pads_gpio_27_o_ds       (gpio_27_o_ds),
-    .io_pads_gpio_28_i_ival     (io_pads_gpio_28_i_ival),
-    .io_pads_gpio_28_o_oval     (gpio_28_o_oval),
-    .io_pads_gpio_28_o_oe       (gpio_28_o_oe),
-    .io_pads_gpio_28_o_ie       (gpio_28_o_ie),
-    .io_pads_gpio_28_o_pue      (gpio_28_o_pue),
-    .io_pads_gpio_28_o_ds       (gpio_28_o_ds),
-    .io_pads_gpio_29_i_ival     (io_pads_gpio_29_i_ival),
-    .io_pads_gpio_29_o_oval     (gpio_29_o_oval),
-    .io_pads_gpio_29_o_oe       (gpio_29_o_oe),
-    .io_pads_gpio_29_o_ie       (gpio_29_o_ie),
-    .io_pads_gpio_29_o_pue      (gpio_29_o_pue),
-    .io_pads_gpio_29_o_ds       (gpio_29_o_ds),
-    .io_pads_gpio_30_i_ival     (io_pads_gpio_30_i_ival),
-    .io_pads_gpio_30_o_oval     (gpio_30_o_oval),
-    .io_pads_gpio_30_o_oe       (gpio_30_o_oe),
-    .io_pads_gpio_30_o_ie       (gpio_30_o_ie),
-    .io_pads_gpio_30_o_pue      (gpio_30_o_pue),
-    .io_pads_gpio_30_o_ds       (gpio_30_o_ds),
-    .io_pads_gpio_31_i_ival     (io_pads_gpio_31_i_ival),
-    .io_pads_gpio_31_o_oval     (gpio_31_o_oval),
-    .io_pads_gpio_31_o_oe       (gpio_31_o_oe),
-    .io_pads_gpio_31_o_ie       (gpio_31_o_ie),
-    .io_pads_gpio_31_o_pue      (gpio_31_o_pue),
-    .io_pads_gpio_31_o_ds       (gpio_31_o_ds),
+    .io_pads_gpio_i_ival        (io_pads_gpio_i_ival),
+    .io_pads_gpio_o_oval        (gpio_o_oval),
+    .io_pads_gpio_o_oe          (gpio_o_oe),
 
-    .io_pads_qspi_sck_i_ival    (io_pads_qspi_sck_i_ival    ),
-    .io_pads_qspi_sck_o_oval    (io_pads_qspi_sck_o_oval    ),
-    .io_pads_qspi_sck_o_oe      (io_pads_qspi_sck_o_oe      ),
-    .io_pads_qspi_sck_o_ie      (io_pads_qspi_sck_o_ie      ),
-    .io_pads_qspi_sck_o_pue     (io_pads_qspi_sck_o_pue     ),
-    .io_pads_qspi_sck_o_ds      (io_pads_qspi_sck_o_ds      ),
-    .io_pads_qspi_dq_0_i_ival   (io_pads_qspi_dq_0_i_ival   ),
-    .io_pads_qspi_dq_0_o_oval   (io_pads_qspi_dq_0_o_oval   ),
-    .io_pads_qspi_dq_0_o_oe     (io_pads_qspi_dq_0_o_oe     ),
-    .io_pads_qspi_dq_0_o_ie     (io_pads_qspi_dq_0_o_ie     ),
-    .io_pads_qspi_dq_0_o_pue    (io_pads_qspi_dq_0_o_pue    ),
-    .io_pads_qspi_dq_0_o_ds     (io_pads_qspi_dq_0_o_ds     ),
-    .io_pads_qspi_dq_1_i_ival   (io_pads_qspi_dq_1_i_ival   ),
-    .io_pads_qspi_dq_1_o_oval   (io_pads_qspi_dq_1_o_oval   ),
-    .io_pads_qspi_dq_1_o_oe     (io_pads_qspi_dq_1_o_oe     ),
-    .io_pads_qspi_dq_1_o_ie     (io_pads_qspi_dq_1_o_ie     ),
-    .io_pads_qspi_dq_1_o_pue    (io_pads_qspi_dq_1_o_pue    ),
-    .io_pads_qspi_dq_1_o_ds     (io_pads_qspi_dq_1_o_ds     ),
-    .io_pads_qspi_dq_2_i_ival   (io_pads_qspi_dq_2_i_ival   ),
-    .io_pads_qspi_dq_2_o_oval   (io_pads_qspi_dq_2_o_oval   ),
-    .io_pads_qspi_dq_2_o_oe     (io_pads_qspi_dq_2_o_oe     ),
-    .io_pads_qspi_dq_2_o_ie     (io_pads_qspi_dq_2_o_ie     ),
-    .io_pads_qspi_dq_2_o_pue    (io_pads_qspi_dq_2_o_pue    ),
-    .io_pads_qspi_dq_2_o_ds     (io_pads_qspi_dq_2_o_ds     ),
-    .io_pads_qspi_dq_3_i_ival   (io_pads_qspi_dq_3_i_ival   ),
-    .io_pads_qspi_dq_3_o_oval   (io_pads_qspi_dq_3_o_oval   ),
-    .io_pads_qspi_dq_3_o_oe     (io_pads_qspi_dq_3_o_oe     ),
-    .io_pads_qspi_dq_3_o_ie     (io_pads_qspi_dq_3_o_ie     ),
-    .io_pads_qspi_dq_3_o_pue    (io_pads_qspi_dq_3_o_pue    ),
-    .io_pads_qspi_dq_3_o_ds     (io_pads_qspi_dq_3_o_ds     ),
-    .io_pads_qspi_cs_0_i_ival   (io_pads_qspi_cs_0_i_ival   ),
-    .io_pads_qspi_cs_0_o_oval   (io_pads_qspi_cs_0_o_oval   ),
-    .io_pads_qspi_cs_0_o_oe     (io_pads_qspi_cs_0_o_oe     ),
-    .io_pads_qspi_cs_0_o_ie     (io_pads_qspi_cs_0_o_ie     ),
-    .io_pads_qspi_cs_0_o_pue    (io_pads_qspi_cs_0_o_pue    ),
-    .io_pads_qspi_cs_0_o_ds     (io_pads_qspi_cs_0_o_ds     ),
+    .io_pads_uart0_rxd_i_ival   (io_pads_uart0_rxd_i_ival),
+    .io_pads_uart0_rxd_o_oval   (io_pads_uart0_rxd_o_oval),
+    .io_pads_uart0_rxd_o_oe     (io_pads_uart0_rxd_o_oe),
+    .io_pads_uart0_txd_i_ival   (io_pads_uart0_txd_i_ival),
+    .io_pads_uart0_txd_o_oval   (io_pads_uart0_txd_o_oval),
+    .io_pads_uart0_txd_o_oe     (io_pads_uart0_txd_o_oe),
+
+
+    .io_pads_qspi0_sck_i_ival   (io_pads_qspi0_sck_i_ival    ),
+    .io_pads_qspi0_sck_o_oval   (io_pads_qspi0_sck_o_oval    ),
+    .io_pads_qspi0_sck_o_oe     (io_pads_qspi0_sck_o_oe      ),
+    .io_pads_qspi0_dq_0_i_ival  (io_pads_qspi0_dq_0_i_ival   ),
+    .io_pads_qspi0_dq_0_o_oval  (io_pads_qspi0_dq_0_o_oval   ),
+    .io_pads_qspi0_dq_0_o_oe    (io_pads_qspi0_dq_0_o_oe     ),
+    .io_pads_qspi0_dq_1_i_ival  (io_pads_qspi0_dq_1_i_ival   ),
+    .io_pads_qspi0_dq_1_o_oval  (io_pads_qspi0_dq_1_o_oval   ),
+    .io_pads_qspi0_dq_1_o_oe    (io_pads_qspi0_dq_1_o_oe     ),
+    .io_pads_qspi0_dq_2_i_ival  (io_pads_qspi0_dq_2_i_ival   ),
+    .io_pads_qspi0_dq_2_o_oval  (io_pads_qspi0_dq_2_o_oval   ),
+    .io_pads_qspi0_dq_2_o_oe    (io_pads_qspi0_dq_2_o_oe     ),
+    .io_pads_qspi0_dq_3_i_ival  (io_pads_qspi0_dq_3_i_ival   ),
+    .io_pads_qspi0_dq_3_o_oval  (io_pads_qspi0_dq_3_o_oval   ),
+    .io_pads_qspi0_dq_3_o_oe    (io_pads_qspi0_dq_3_o_oe     ),
+    .io_pads_qspi0_cs_0_i_ival  (io_pads_qspi0_cs_0_i_ival   ),
+    .io_pads_qspi0_cs_0_o_oval  (io_pads_qspi0_cs_0_o_oval   ),
+    .io_pads_qspi0_cs_0_o_oe    (io_pads_qspi0_cs_0_o_oe     ),
+
+    .io_pads_qspi1_sck_i_ival   (io_pads_qspi1_sck_i_ival    ),
+    .io_pads_qspi1_sck_o_oval   (io_pads_qspi1_sck_o_oval    ),
+    .io_pads_qspi1_sck_o_oe     (io_pads_qspi1_sck_o_oe      ),
+    .io_pads_qspi1_dq_0_i_ival  (io_pads_qspi1_dq_0_i_ival   ),
+    .io_pads_qspi1_dq_0_o_oval  (io_pads_qspi1_dq_0_o_oval   ),
+    .io_pads_qspi1_dq_0_o_oe    (io_pads_qspi1_dq_0_o_oe     ),
+    .io_pads_qspi1_dq_1_i_ival  (io_pads_qspi1_dq_1_i_ival   ),
+    .io_pads_qspi1_dq_1_o_oval  (io_pads_qspi1_dq_1_o_oval   ),
+    .io_pads_qspi1_dq_1_o_oe    (io_pads_qspi1_dq_1_o_oe     ),
+    .io_pads_qspi1_dq_2_i_ival  (io_pads_qspi1_dq_2_i_ival   ),
+    .io_pads_qspi1_dq_2_o_oval  (io_pads_qspi1_dq_2_o_oval   ),
+    .io_pads_qspi1_dq_2_o_oe    (io_pads_qspi1_dq_2_o_oe     ),
+    .io_pads_qspi1_dq_3_i_ival  (io_pads_qspi1_dq_3_i_ival   ),
+    .io_pads_qspi1_dq_3_o_oval  (io_pads_qspi1_dq_3_o_oval   ),
+    .io_pads_qspi1_dq_3_o_oe    (io_pads_qspi1_dq_3_o_oe     ),
+    .io_pads_qspi1_cs_0_i_ival  (io_pads_qspi1_cs_0_i_ival   ),
+    .io_pads_qspi1_cs_0_o_oval  (io_pads_qspi1_cs_0_o_oval   ),
+    .io_pads_qspi1_cs_0_o_oe    (io_pads_qspi1_cs_0_o_oe     ),
+
+    .io_pads_i2c0_scl_o_oen     (io_pads_i2c0_scl_o_oen),
+    .io_pads_i2c0_sda_o_oen     (io_pads_i2c0_sda_o_oen),
+    .io_pads_i2c0_sda_o_oval    (io_pads_i2c0_sda_o_oval),
+    .io_pads_i2c0_scl_o_oval    (io_pads_i2c0_scl_o_oval),
+    .io_pads_i2c0_scl_i_ival    (io_pads_i2c0_scl_i_ival),
+    .io_pads_i2c0_sda_i_ival    (io_pads_i2c0_sda_i_ival),
+
+    .io_pads_pwm0_ch0_i_ival    (io_pads_pwm0_ch0_i_ival),
+    .io_pads_pwm0_ch0_o_oval    (io_pads_pwm0_ch0_o_oval),
+    .io_pads_pwm0_ch0_o_oe      (io_pads_pwm0_ch0_o_oe),
+    .io_pads_pwm0_ch1_i_ival    (io_pads_pwm0_ch1_i_ival),
+    .io_pads_pwm0_ch1_o_oval    (io_pads_pwm0_ch1_o_oval),
+    .io_pads_pwm0_ch1_o_oe      (io_pads_pwm0_ch1_o_oe),
+    .io_pads_pwm0_ch2_i_ival    (io_pads_pwm0_ch2_i_ival),
+    .io_pads_pwm0_ch2_o_oval    (io_pads_pwm0_ch2_o_oval),
+    .io_pads_pwm0_ch2_o_oe      (io_pads_pwm0_ch2_o_oe),
+    .io_pads_pwm0_ch3_i_ival    (io_pads_pwm0_ch3_i_ival),
+    .io_pads_pwm0_ch3_o_oval    (io_pads_pwm0_ch3_o_oval),
+    .io_pads_pwm0_ch3_o_oe      (io_pads_pwm0_ch3_o_oe),
+
+    .io_pads_pwm1_ch0_i_ival    (io_pads_pwm1_ch0_i_ival),
+    .io_pads_pwm1_ch0_o_oval    (io_pads_pwm1_ch0_o_oval),
+    .io_pads_pwm1_ch0_o_oe      (io_pads_pwm1_ch0_o_oe),
+    .io_pads_pwm1_ch1_i_ival    (io_pads_pwm1_ch1_i_ival),
+    .io_pads_pwm1_ch1_o_oval    (io_pads_pwm1_ch1_o_oval),
+    .io_pads_pwm1_ch1_o_oe      (io_pads_pwm1_ch1_o_oe),
+    .io_pads_pwm1_ch2_i_ival    (io_pads_pwm1_ch2_i_ival),
+    .io_pads_pwm1_ch2_o_oval    (io_pads_pwm1_ch2_o_oval),
+    .io_pads_pwm1_ch2_o_oe      (io_pads_pwm1_ch2_o_oe),
+    .io_pads_pwm1_ch3_i_ival    (io_pads_pwm1_ch3_i_ival),
+    .io_pads_pwm1_ch3_o_oval    (io_pads_pwm1_ch3_o_oval),
+    .io_pads_pwm1_ch3_o_oe      (io_pads_pwm1_ch3_o_oe),
+
+    .io_pads_pwm2_ch0_i_ival    (io_pads_pwm2_ch0_i_ival),
+    .io_pads_pwm2_ch0_o_oval    (io_pads_pwm2_ch0_o_oval),
+    .io_pads_pwm2_ch0_o_oe      (io_pads_pwm2_ch0_o_oe),
+    .io_pads_pwm2_ch1_i_ival    (io_pads_pwm2_ch1_i_ival),
+    .io_pads_pwm2_ch1_o_oval    (io_pads_pwm2_ch1_o_oval),
+    .io_pads_pwm2_ch1_o_oe      (io_pads_pwm2_ch1_o_oe),
+    .io_pads_pwm2_ch2_i_ival    (io_pads_pwm2_ch2_i_ival),
+    .io_pads_pwm2_ch2_o_oval    (io_pads_pwm2_ch2_o_oval),
+    .io_pads_pwm2_ch2_o_oe      (io_pads_pwm2_ch2_o_oe),
+    .io_pads_pwm2_ch3_i_ival    (io_pads_pwm2_ch3_i_ival),
+    .io_pads_pwm2_ch3_o_oval    (io_pads_pwm2_ch3_o_oval),
+    .io_pads_pwm2_ch3_o_oe      (io_pads_pwm2_ch3_o_oe),
+
+    .io_pads_pwm3_ch0_i_ival    (io_pads_pwm3_ch0_i_ival),
+    .io_pads_pwm3_ch0_o_oval    (io_pads_pwm3_ch0_o_oval),
+    .io_pads_pwm3_ch0_o_oe      (io_pads_pwm3_ch0_o_oe),
+    .io_pads_pwm3_ch1_i_ival    (io_pads_pwm3_ch1_i_ival),
+    .io_pads_pwm3_ch1_o_oval    (io_pads_pwm3_ch1_o_oval),
+    .io_pads_pwm3_ch1_o_oe      (io_pads_pwm3_ch1_o_oe),
+    .io_pads_pwm3_ch2_i_ival    (io_pads_pwm3_ch2_i_ival),
+    .io_pads_pwm3_ch2_o_oval    (io_pads_pwm3_ch2_o_oval),
+    .io_pads_pwm3_ch2_o_oe      (io_pads_pwm3_ch2_o_oe),
+    .io_pads_pwm3_ch3_i_ival    (io_pads_pwm3_ch3_i_ival),
+    .io_pads_pwm3_ch3_o_oval    (io_pads_pwm3_ch3_o_oval),
+    .io_pads_pwm3_ch3_o_oe      (io_pads_pwm3_ch3_o_oe),
 
     .qspi0_irq              (qspi0_irq  ), 
     .qspi1_irq              (qspi1_irq  ),
-    .qspi2_irq              (qspi2_irq  ),
                                         
     .uart0_irq              (uart0_irq  ),                
-    .uart1_irq              (uart1_irq  ),                
                                         
-    .pwm0_irq_0             (pwm0_irq_0 ),
-    .pwm0_irq_1             (pwm0_irq_1 ),
-    .pwm0_irq_2             (pwm0_irq_2 ),
-    .pwm0_irq_3             (pwm0_irq_3 ),
+    .pwm_irq_0              (pwm_irq_0 ),
+    .pwm_irq_1              (pwm_irq_1 ),
+    .pwm_irq_2              (pwm_irq_2 ),
+    .pwm_irq_3              (pwm_irq_3 ),
                                         
-    .pwm1_irq_0             (pwm1_irq_0 ),
-    .pwm1_irq_1             (pwm1_irq_1 ),
-    .pwm1_irq_2             (pwm1_irq_2 ),
-    .pwm1_irq_3             (pwm1_irq_3 ),
-                                        
-    .pwm2_irq_0             (pwm2_irq_0 ),
-    .pwm2_irq_1             (pwm2_irq_1 ),
-    .pwm2_irq_2             (pwm2_irq_2 ),
-    .pwm2_irq_3             (pwm2_irq_3 ),
-                                        
-    .i2c_mst_irq            (i2c_mst_irq),
+    .i2c0_mst_irq           (i2c0_mst_irq),
 
-    .gpio_irq_0             (gpio_irq_0 ),
-    .gpio_irq_1             (gpio_irq_1 ),
-    .gpio_irq_2             (gpio_irq_2 ),
-    .gpio_irq_3             (gpio_irq_3 ),
-    .gpio_irq_4             (gpio_irq_4 ),
-    .gpio_irq_5             (gpio_irq_5 ),
-    .gpio_irq_6             (gpio_irq_6 ),
-    .gpio_irq_7             (gpio_irq_7 ),
-    .gpio_irq_8             (gpio_irq_8 ),
-    .gpio_irq_9             (gpio_irq_9 ),
-    .gpio_irq_10            (gpio_irq_10),
-    .gpio_irq_11            (gpio_irq_11),
-    .gpio_irq_12            (gpio_irq_12),
-    .gpio_irq_13            (gpio_irq_13),
-    .gpio_irq_14            (gpio_irq_14),
-    .gpio_irq_15            (gpio_irq_15),
-    .gpio_irq_16            (gpio_irq_16),
-    .gpio_irq_17            (gpio_irq_17),
-    .gpio_irq_18            (gpio_irq_18),
-    .gpio_irq_19            (gpio_irq_19),
-    .gpio_irq_20            (gpio_irq_20),
-    .gpio_irq_21            (gpio_irq_21),
-    .gpio_irq_22            (gpio_irq_22),
-    .gpio_irq_23            (gpio_irq_23),
-    .gpio_irq_24            (gpio_irq_24),
-    .gpio_irq_25            (gpio_irq_25),
-    .gpio_irq_26            (gpio_irq_26),
-    .gpio_irq_27            (gpio_irq_27),
-    .gpio_irq_28            (gpio_irq_28),
-    .gpio_irq_29            (gpio_irq_29),
-    .gpio_irq_30            (gpio_irq_30),
-    .gpio_irq_31            (gpio_irq_31),
+    .gpio_irq               (gpio_irq ),
 
+    .ls_clk        (ls_clk  ),
     .clk           (hfclk  ),
     .bus_rst_n     (bus_rst_n), 
     .rst_n         (per_rst_n) 
