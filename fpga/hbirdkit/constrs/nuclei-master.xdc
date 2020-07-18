@@ -21,13 +21,13 @@ set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets IOBUF_jtag_TCK/O]
 set_property PACKAGE_PIN T6  [get_ports fpga_rst  ]
 set_property PACKAGE_PIN P20 [get_ports mcu_rst   ]
 
-#####                spi define               #####
-set_property PACKAGE_PIN W16 [get_ports  qspi_cs    ]
-set_property PACKAGE_PIN W15 [get_ports  qspi_sck   ]
-set_property PACKAGE_PIN U16 [get_ports {qspi_dq[3]}]
-set_property PACKAGE_PIN T16 [get_ports {qspi_dq[2]}]
-set_property PACKAGE_PIN T14 [get_ports {qspi_dq[1]}]
-set_property PACKAGE_PIN T15 [get_ports {qspi_dq[0]}]
+#####                spi0 define               #####
+set_property PACKAGE_PIN W16 [get_ports  qspi0_cs    ]
+set_property PACKAGE_PIN W15 [get_ports  qspi0_sck   ]
+set_property PACKAGE_PIN U16 [get_ports {qspi0_dq[3]}]
+set_property PACKAGE_PIN T16 [get_ports {qspi0_dq[2]}]
+set_property PACKAGE_PIN T14 [get_ports {qspi0_dq[1]}]
+set_property PACKAGE_PIN T15 [get_ports {qspi0_dq[0]}]
 
 #####               MCU JTAG define           #####
 set_property PACKAGE_PIN N17 [get_ports mcu_TDO]
@@ -39,6 +39,43 @@ set_property PACKAGE_PIN P17 [get_ports mcu_TMS]
 set_property PACKAGE_PIN U15 [get_ports pmu_paden ]
 set_property PACKAGE_PIN V15 [get_ports pmu_padrst]
 set_property PACKAGE_PIN N15 [get_ports mcu_wakeup]
+
+#####                UART0 define             #####
+set_property PACKAGE_PIN R17 [get_ports uart0_txd]
+set_property PACKAGE_PIN P16 [get_ports uart0_rxd]
+
+#####                spi1 define               #####
+set_property PACKAGE_PIN J22  [get_ports  qspi1_cs    ]
+set_property PACKAGE_PIN K18  [get_ports  qspi1_sck   ]
+set_property PACKAGE_PIN M18  [get_ports {qspi1_dq[3]}]
+set_property PACKAGE_PIN K17  [get_ports {qspi1_dq[2]}]
+set_property PACKAGE_PIN L19  [get_ports {qspi1_dq[1]}]
+set_property PACKAGE_PIN K21  [get_ports {qspi1_dq[0]}]
+
+#####                I2C0 define             #####
+set_property PACKAGE_PIN L16  [get_ports i2c0_scl]
+set_property PACKAGE_PIN J15  [get_ports i2c0_sda]
+
+#####                PWM define             #####
+set_property PACKAGE_PIN H13  [get_ports pwm0_ch[0]]
+set_property PACKAGE_PIN J14  [get_ports pwm0_ch[1]]
+set_property PACKAGE_PIN G15  [get_ports pwm0_ch[2]]
+set_property PACKAGE_PIN G17  [get_ports pwm0_ch[3]]
+
+set_property PACKAGE_PIN H17  [get_ports pwm1_ch[0]]
+set_property PACKAGE_PIN H20  [get_ports pwm1_ch[1]]
+set_property PACKAGE_PIN J19  [get_ports pwm1_ch[2]]
+set_property PACKAGE_PIN J20  [get_ports pwm1_ch[3]]
+
+set_property PACKAGE_PIN G13  [get_ports pwm2_ch[0]]
+set_property PACKAGE_PIN H14  [get_ports pwm2_ch[1]]
+set_property PACKAGE_PIN G16  [get_ports pwm2_ch[2]]
+set_property PACKAGE_PIN G18  [get_ports pwm2_ch[3]]
+
+set_property PACKAGE_PIN H18  [get_ports pwm3_ch[0]]
+set_property PACKAGE_PIN G20  [get_ports pwm3_ch[1]]
+set_property PACKAGE_PIN H19  [get_ports pwm3_ch[2]]
+set_property PACKAGE_PIN J21  [get_ports pwm3_ch[3]]
 
 #####                gpio define              #####
 set_property PACKAGE_PIN W17  [get_ports {gpio[31]}]
@@ -55,8 +92,10 @@ set_property PACKAGE_PIN Y19  [get_ports {gpio[21]}]
 set_property PACKAGE_PIN V18  [get_ports {gpio[20]}]
 set_property PACKAGE_PIN V19  [get_ports {gpio[19]}]
 set_property PACKAGE_PIN AA19 [get_ports {gpio[18]}]
-set_property PACKAGE_PIN R17  [get_ports {gpio[17]}]  
-set_property PACKAGE_PIN P16  [get_ports {gpio[16]}]  
+
+set_property PACKAGE_PIN Y16  [get_ports {gpio[17]}]  
+set_property PACKAGE_PIN AB16 [get_ports {gpio[16]}]  
+
 set_property PACKAGE_PIN V22  [get_ports {gpio[15]}]
 set_property PACKAGE_PIN T21  [get_ports {gpio[14]}]
 set_property PACKAGE_PIN U21  [get_ports {gpio[13]}]
@@ -82,13 +121,13 @@ set_property IOSTANDARD LVCMOS15 [get_ports fpga_rst  ]
 set_property IOSTANDARD LVCMOS33 [get_ports mcu_rst   ]
 
 
-#####                spi define               #####
-set_property IOSTANDARD LVCMOS33 [get_ports  qspi_cs    ]
-set_property IOSTANDARD LVCMOS33 [get_ports  qspi_sck   ]
-set_property IOSTANDARD LVCMOS33 [get_ports {qspi_dq[3]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {qspi_dq[2]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {qspi_dq[1]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {qspi_dq[0]}]
+#####                spi0 define               #####
+set_property IOSTANDARD LVCMOS33 [get_ports  qspi0_cs    ]
+set_property IOSTANDARD LVCMOS33 [get_ports  qspi0_sck   ]
+set_property IOSTANDARD LVCMOS33 [get_ports {qspi0_dq[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {qspi0_dq[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {qspi0_dq[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {qspi0_dq[0]}]
 
 
 #####               MCU JTAG define           #####
@@ -101,6 +140,43 @@ set_property IOSTANDARD LVCMOS33 [get_ports mcu_TMS]
 set_property IOSTANDARD LVCMOS33 [get_ports pmu_paden ]
 set_property IOSTANDARD LVCMOS33 [get_ports pmu_padrst]
 set_property IOSTANDARD LVCMOS33 [get_ports mcu_wakeup]
+
+#####                UART0 define             #####
+set_property IOSTANDARD LVCMOS33 [get_ports uart0_txd]
+set_property IOSTANDARD LVCMOS33 [get_ports uart0_rxd]
+
+#####                spi1 define               #####
+set_property IOSTANDARD LVCMOS33 [get_ports  qspi1_cs    ]
+set_property IOSTANDARD LVCMOS33 [get_ports  qspi1_sck   ]
+set_property IOSTANDARD LVCMOS33 [get_ports {qspi1_dq[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {qspi1_dq[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {qspi1_dq[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {qspi1_dq[0]}]
+
+#####                I2C0 define             #####
+set_property IOSTANDARD LVCMOS33 [get_ports i2c0_scl]
+set_property IOSTANDARD LVCMOS33 [get_ports i2c0_sda]
+
+#####                PWM define             #####
+set_property IOSTANDARD LVCMOS33 [get_ports pwm0_ch[0]]
+set_property IOSTANDARD LVCMOS33 [get_ports pwm0_ch[1]]
+set_property IOSTANDARD LVCMOS33 [get_ports pwm0_ch[2]]
+set_property IOSTANDARD LVCMOS33 [get_ports pwm0_ch[3]]
+
+set_property IOSTANDARD LVCMOS33 [get_ports pwm1_ch[0]]
+set_property IOSTANDARD LVCMOS33 [get_ports pwm1_ch[1]]
+set_property IOSTANDARD LVCMOS33 [get_ports pwm1_ch[2]]
+set_property IOSTANDARD LVCMOS33 [get_ports pwm1_ch[3]]
+
+set_property IOSTANDARD LVCMOS33 [get_ports pwm2_ch[0]]
+set_property IOSTANDARD LVCMOS33 [get_ports pwm2_ch[1]]
+set_property IOSTANDARD LVCMOS33 [get_ports pwm2_ch[2]]
+set_property IOSTANDARD LVCMOS33 [get_ports pwm2_ch[3]]
+
+set_property IOSTANDARD LVCMOS33 [get_ports pwm3_ch[0]]
+set_property IOSTANDARD LVCMOS33 [get_ports pwm3_ch[1]]
+set_property IOSTANDARD LVCMOS33 [get_ports pwm3_ch[2]]
+set_property IOSTANDARD LVCMOS33 [get_ports pwm3_ch[3]]
 
 #####                gpio define              #####
 set_property IOSTANDARD LVCMOS33 [get_ports {gpio[31]}]
