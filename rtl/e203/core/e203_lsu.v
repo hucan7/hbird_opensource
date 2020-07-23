@@ -155,6 +155,25 @@ module e203_lsu(
   input                          biu_icb_rsp_excl_ok  ,
   input  [`E203_XLEN-1:0]        biu_icb_rsp_rdata,
 
+`ifdef E203_HAS_NICE//{
+  input                          nice_mem_holdup,
+  input                          nice_icb_cmd_valid,
+  output                         nice_icb_cmd_ready,
+  input  [`E203_ADDR_SIZE-1:0]   nice_icb_cmd_addr, 
+  input                          nice_icb_cmd_read, 
+  input  [`E203_XLEN-1:0]        nice_icb_cmd_wdata,
+  input  [`E203_XLEN_MW-1:0]     nice_icb_cmd_wmask,
+  input                          nice_icb_cmd_lock,
+  input                          nice_icb_cmd_excl,
+  input  [1:0]                   nice_icb_cmd_size,
+
+  
+  output                         nice_icb_rsp_valid,
+  input                          nice_icb_rsp_ready,
+  output                         nice_icb_rsp_err  ,
+  output                         nice_icb_rsp_excl_ok  ,
+  output [`E203_XLEN-1:0]        nice_icb_rsp_rdata,
+`endif//}
 
   input  clk,
   input  rst_n
@@ -226,26 +245,25 @@ module e203_lsu(
     .agu_icb_rsp_err       (agu_icb_rsp_err   ),
     .agu_icb_rsp_excl_ok   (agu_icb_rsp_excl_ok),
     .agu_icb_rsp_rdata     (agu_icb_rsp_rdata),
- 
-      `ifndef E203_HAS_EAI 
-    .eai_mem_holdup        (1'b0),
-    .eai_icb_cmd_valid     (1'b0),
-    .eai_icb_cmd_ready     (),
-    .eai_icb_cmd_addr      (`E203_ADDR_SIZE'b0 ),
-    .eai_icb_cmd_read      (1'b0 ),
-    .eai_icb_cmd_wdata     (`E203_XLEN'b0),
-    .eai_icb_cmd_wmask     ({`E203_XLEN/8{1'b0}}),
-    .eai_icb_cmd_lock      (1'b0),
-    .eai_icb_cmd_excl      (1'b0),
-    .eai_icb_cmd_size      (2'b0),
-    
-    .eai_icb_rsp_valid     (),
-    .eai_icb_rsp_ready     (1'b0),
-    .eai_icb_rsp_err       (),
-    .eai_icb_rsp_excl_ok   (),
-    .eai_icb_rsp_rdata     (),
-      `endif           
 
+`ifdef E203_HAS_NICE//{
+    .nice_mem_holdup        (nice_mem_holdup   ),
+    .nice_icb_cmd_valid     (nice_icb_cmd_valid),
+    .nice_icb_cmd_ready     (nice_icb_cmd_ready),
+    .nice_icb_cmd_addr      (nice_icb_cmd_addr ),
+    .nice_icb_cmd_read      (nice_icb_cmd_read ),
+    .nice_icb_cmd_wdata     (nice_icb_cmd_wdata),
+    .nice_icb_cmd_wmask     (nice_icb_cmd_wmask),
+    .nice_icb_cmd_lock      (1'b0),
+    .nice_icb_cmd_excl      (1'b0),
+    .nice_icb_cmd_size      (nice_icb_cmd_size),
+    
+    .nice_icb_rsp_valid     (nice_icb_rsp_valid),
+    .nice_icb_rsp_ready     (nice_icb_rsp_ready),
+    .nice_icb_rsp_err       (nice_icb_rsp_err  ),
+    .nice_icb_rsp_excl_ok   (nice_icb_rsp_excl_ok  ),
+    .nice_icb_rsp_rdata     (nice_icb_rsp_rdata),
+`endif//}
 
       `ifdef E203_HAS_DCACHE
     .dcache_icb_cmd_valid  (dcache_icb_cmd_valid),
@@ -316,7 +334,8 @@ module e203_lsu(
     .biu_icb_rsp_err       (biu_icb_rsp_err  ),
     .biu_icb_rsp_excl_ok   (biu_icb_rsp_excl_ok  ),
     .biu_icb_rsp_rdata     (biu_icb_rsp_rdata),
-  
+ 
+
     .clk                   (clk),
     .rst_n                 (rst_n)
   );

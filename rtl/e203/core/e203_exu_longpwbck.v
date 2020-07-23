@@ -71,7 +71,15 @@ module e203_exu_longpwbck(
   input  oitf_ret_rdwen,   
   input  oitf_ret_rdfpu,   
   output oitf_ret_ena,
-  
+ 
+  `ifdef E203_HAS_NICE//{
+  input  nice_longp_wbck_i_valid , 
+  output nice_longp_wbck_i_ready ,
+  input  [`E203_XLEN-1:0]  nice_longp_wbck_i_wdat ,
+  input  [`E203_ITAG_WIDTH-1:0]  nice_longp_wbck_i_itag ,
+  input  nice_longp_wbck_i_err,
+  `endif//}
+
   input  clk,
   input  rst_n
   );
@@ -81,6 +89,11 @@ module e203_exu_longpwbck(
   //   is same as the itag of toppest entry of OITF
   wire wbck_ready4lsu = (lsu_wbck_i_itag == oitf_ret_ptr) & (~oitf_empty);
   wire wbck_sel_lsu = lsu_wbck_i_valid & wbck_ready4lsu;
+
+  `ifdef E203_HAS_NICE//{
+  wire wbck_ready4nice = (nice_longp_wbck_i_itag == oitf_ret_ptr) & (~oitf_empty);
+  wire wbck_sel_nice = nice_longp_wbck_i_valid & wbck_ready4nice; 
+  `endif//}
 
   //assign longp_excp_o_ld   = wbck_sel_lsu & lsu_cmt_i_ld;
   //assign longp_excp_o_st   = wbck_sel_lsu & lsu_cmt_i_st;
@@ -117,17 +130,31 @@ module e203_exu_longpwbck(
 
   assign lsu_wbck_i_ready = wbck_ready4lsu & wbck_i_ready;
 
-  assign wbck_i_valid = ({1{wbck_sel_lsu}} & lsu_wbck_i_valid) 
+  assign wbck_i_valid =   ({1{wbck_sel_lsu}} & lsu_wbck_i_valid)
+                        `ifdef E203_HAS_NICE//{
+                        |  ({1{wbck_sel_nice}} & nice_longp_wbck_i_valid)
+                        `endif//}
                          ;
   `ifdef E203_FLEN_IS_32 //{
   wire [`E203_FLEN-1:0] lsu_wbck_i_wdat_exd = lsu_wbck_i_wdat;
   `else//}{
   wire [`E203_FLEN-1:0] lsu_wbck_i_wdat_exd = {{`E203_FLEN-`E203_XLEN{1'b0}},lsu_wbck_i_wdat};
   `endif//}
-  assign wbck_i_wdat  = ({`E203_FLEN{wbck_sel_lsu}} & lsu_wbck_i_wdat_exd ) 
+  `ifdef E203_HAS_NICE//{
+  wire [`E203_FLEN-1:0] nice_wbck_i_wdat_exd = {{`E203_FLEN-`E203_XLEN{1'b0}},nice_longp_wbck_i_wdat};
+  `endif//}
+  
+  assign wbck_i_wdat  = ({`E203_FLEN{wbck_sel_lsu}} & lsu_wbck_i_wdat_exd )
+                        `ifdef E203_HAS_NICE//{
+                        | ({`E203_FLEN{wbck_sel_nice}} & nice_wbck_i_wdat_exd )
+                        `endif//}
                          ;
   assign wbck_i_flags  = 5'b0
                          ;
+  `ifdef E203_HAS_NICE//{
+  wire nice_wbck_i_err = nice_longp_wbck_i_err;
+  `endif//}
+
   assign wbck_i_err   = wbck_sel_lsu & lsu_wbck_i_err 
                          ;
   assign wbck_i_pc    = oitf_ret_pc;
@@ -141,7 +168,11 @@ module e203_exu_longpwbck(
 
   // If the long pipe instruction have error result, then it need to handshake
   //   with the commit module.
-  wire need_excp = wbck_i_err;
+  wire need_excp = wbck_i_err
+                   `ifdef E203_HAS_NICE//{
+                   & (~ (wbck_sel_nice & nice_wbck_i_err))   
+                   `endif//}
+                   ;
 
   assign wbck_i_ready = 
        (need_wbck ? longp_wbck_o_ready : 1'b1)
@@ -159,6 +190,10 @@ module e203_exu_longpwbck(
   assign longp_excp_o_pc    = wbck_i_pc;
 
   assign oitf_ret_ena = wbck_i_valid & wbck_i_ready;
+
+  `ifdef E203_HAS_NICE//{
+  assign nice_longp_wbck_i_ready = wbck_ready4nice & wbck_i_ready;
+  `endif//}
 
 endmodule                                      
                                                

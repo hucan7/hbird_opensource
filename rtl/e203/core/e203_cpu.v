@@ -437,41 +437,99 @@ module e203_cpu #(
   wire [`E203_XLEN-1:0]              lsu2dtcm_icb_rsp_rdata;
   `endif//}
 
-  `ifdef E203_HAS_CSR_EAI//{
-  wire         eai_csr_valid;
-  wire         eai_csr_ready;
-  wire  [31:0] eai_csr_addr;
-  wire         eai_csr_wr;
-  wire  [31:0] eai_csr_wdata;
-  wire  [31:0] eai_csr_rdata;
+  `ifdef E203_HAS_CSR_NICE//{
+  wire         nice_csr_valid;
+  wire         nice_csr_ready;
+  wire  [31:0] nice_csr_addr;
+  wire         nice_csr_wr;
+  wire  [31:0] nice_csr_wdata;
+  wire  [31:0] nice_csr_rdata;
 
-  // This is an empty module to just connect the EAI CSR interface, 
+  // This is an empty module to just connect the NICE CSR interface, 
   //  user can hack it to become a real one
   e203_extend_csr u_e203_extend_csr(
-    .eai_csr_valid (eai_csr_valid),
-    .eai_csr_ready (eai_csr_ready),
-    .eai_csr_addr  (eai_csr_addr ),
-    .eai_csr_wr    (eai_csr_wr   ),
-    .eai_csr_wdata (eai_csr_wdata),
-    .eai_csr_rdata (eai_csr_rdata),
+    .nice_csr_valid (nice_csr_valid),
+    .nice_csr_ready (nice_csr_ready),
+    .nice_csr_addr  (nice_csr_addr ),
+    .nice_csr_wr    (nice_csr_wr   ),
+    .nice_csr_wdata (nice_csr_wdata),
+    .nice_csr_rdata (nice_csr_rdata),
     .clk           (clk_core_exu ),
     .rst_n         (rst_core ) 
    );
   `endif//}
 
- 
+  `ifdef E203_HAS_NICE//{
+   /* input */ wire                   nice_mem_holdup          ; 
+   /* output*/ wire                   nice_req_valid           ; 
+   /* input */ wire                   nice_req_ready           ; 
+   /* output*/ wire  [`E203_XLEN-1:0] nice_req_inst            ;  
+   /* output*/ wire  [`E203_XLEN-1:0] nice_req_rs1             ; 
+   /* output*/ wire  [`E203_XLEN-1:0] nice_req_rs2             ; 
+
+   /* input */ wire                   nice_rsp_multicyc_valid  ; 
+   /* output*/ wire                   nice_rsp_multicyc_ready  ;                              
+   /* input */ wire  [`E203_XLEN-1:0] nice_rsp_multicyc_dat    ; 
+   /* input */ wire                   nice_rsp_multicyc_err    ;
+
+   /* input */ wire                   nice_icb_cmd_valid       ; 
+   /* output*/ wire                   nice_icb_cmd_ready       ;
+   /* input */ wire [`E203_XLEN-1:0]  nice_icb_cmd_addr        ; 
+   /* input */ wire                   nice_icb_cmd_read        ;  
+   /* input */ wire [`E203_XLEN-1:0]  nice_icb_cmd_wdata       ;
+   /* input */ wire [1:0]             nice_icb_cmd_size        ; 
+
+   /* output*/ wire  nice_icb_rsp_valid                        ; 
+   /* input */ wire  nice_icb_rsp_ready                        ;
+   /* output*/ wire  [`E203_XLEN-1:0]  nice_icb_rsp_rdata      ;
+   /* output*/ wire  nice_icb_rsp_err                          ; 
+
+   e203_subsys_nice_core u_e203_nice_core  (
+    
+    .nice_clk             (clk_aon),
+    .nice_rst_n	          (rst_aon),
+    .nice_active	         (),
+    .nice_mem_holdup	  (nice_mem_holdup),
+    
+    .nice_req_valid       (nice_req_valid),
+    .nice_req_ready       (nice_req_ready),
+    .nice_req_inst        (nice_req_inst),
+    .nice_req_rs1         (nice_req_rs1),
+    .nice_req_rs2         (nice_req_rs2),
+    
+    .nice_rsp_valid       (nice_rsp_multicyc_valid),
+    .nice_rsp_ready       (nice_rsp_multicyc_ready),
+    .nice_rsp_rdat        (nice_rsp_multicyc_dat),
+    .nice_rsp_err    	  (nice_rsp_multicyc_err),
+    
+    .nice_icb_cmd_valid   (nice_icb_cmd_valid),
+    .nice_icb_cmd_ready   (nice_icb_cmd_ready),
+    .nice_icb_cmd_addr    (nice_icb_cmd_addr),
+    .nice_icb_cmd_read    (nice_icb_cmd_read),
+    .nice_icb_cmd_wdata   (nice_icb_cmd_wdata),
+    .nice_icb_cmd_size    (nice_icb_cmd_size),
+    
+    .nice_icb_rsp_valid   (nice_icb_rsp_valid),
+    .nice_icb_rsp_ready   (nice_icb_rsp_ready),
+    .nice_icb_rsp_rdata   (nice_icb_rsp_rdata),
+    .nice_icb_rsp_err     (nice_icb_rsp_err)	
+
+   );
+  `endif//}
+
+
 
   e203_core u_e203_core(
     .inspect_pc            (inspect_pc),
 
 
-  `ifdef E203_HAS_CSR_EAI//{
-    .eai_csr_valid (eai_csr_valid),
-    .eai_csr_ready (eai_csr_ready),
-    .eai_csr_addr  (eai_csr_addr ),
-    .eai_csr_wr    (eai_csr_wr   ),
-    .eai_csr_wdata (eai_csr_wdata),
-    .eai_csr_rdata (eai_csr_rdata),
+  `ifdef E203_HAS_CSR_NICE//{
+    .nice_csr_valid (nice_csr_valid),
+    .nice_csr_ready (nice_csr_ready),
+    .nice_csr_addr  (nice_csr_addr ),
+    .nice_csr_wr    (nice_csr_wr   ),
+    .nice_csr_wdata (nice_csr_wdata),
+    .nice_csr_rdata (nice_csr_rdata),
   `endif//}
     .tcm_cgstop              (tcm_cgstop),
     .core_cgstop             (core_cgstop),
@@ -671,6 +729,43 @@ module e203_cpu #(
     .mem_icb_rsp_err    (mem_icb_rsp_err  ),
     .mem_icb_rsp_excl_ok(mem_icb_rsp_excl_ok  ),
     .mem_icb_rsp_rdata  (mem_icb_rsp_rdata),
+  `endif//}
+
+
+  `ifdef E203_HAS_NICE//{
+    ///////////////////////////////////////////
+    // The nice interface
+    .nice_mem_holdup         (nice_mem_holdup), //I: nice occupys the memory. for avoid of dead-loop.
+    // nice_req interface
+    .nice_req_valid     (nice_req_valid ), //O: handshake flag, cmd is valid
+    .nice_req_ready     (nice_req_ready ),     //I: handshake flag, cmd is accepted.
+    .nice_req_inst      (nice_req_inst  ), // O: inst sent to nice. 
+    .nice_req_rs1       (nice_req_rs1   ), // O: rs op 1.
+    .nice_req_rs2       (nice_req_rs2   ), // O: rs op 2.
+    //.nice_req_mmode     (nice_req_mmode   ), // O: 
+
+    // icb_cmd_rsp interface
+    // for one cycle insn, the rsp data is valid at the same time of insn, so
+    // the handshake flags is useless.
+                                              
+    .nice_rsp_multicyc_valid (nice_rsp_multicyc_valid), //I: current insn is multi-cycle.
+    .nice_rsp_multicyc_ready (nice_rsp_multicyc_ready), //I: current insn is multi-cycle.
+    .nice_rsp_multicyc_dat   (nice_rsp_multicyc_dat  ), //I: one cycle result write-back val.
+    .nice_rsp_multicyc_err   (nice_rsp_multicyc_err  ),
+
+    // lsu_req interface                                         
+    .nice_icb_cmd_valid  (nice_icb_cmd_valid), //I: nice access main-mem req valid.
+    .nice_icb_cmd_ready  (nice_icb_cmd_ready),// O: nice access req is accepted.
+    .nice_icb_cmd_addr   (nice_icb_cmd_addr ), //I : nice access main-mem address.
+    .nice_icb_cmd_read   (nice_icb_cmd_read ), //I: nice access type. 
+    .nice_icb_cmd_wdata  (nice_icb_cmd_wdata),//I: nice write data.
+    .nice_icb_cmd_size   (nice_icb_cmd_size), //I: data size input.
+
+    // lsu_rsp interface                                         
+    .nice_icb_rsp_valid  (nice_icb_rsp_valid), // O: main core responds result to nice.
+    .nice_icb_rsp_ready  (nice_icb_rsp_ready), // I: respond result is accepted.
+    .nice_icb_rsp_rdata  (nice_icb_rsp_rdata ), // O: rsp data.
+    .nice_icb_rsp_err    (nice_icb_rsp_err), // O: err flag
   `endif//}
 
     .clk_aon           (clk_aon           ),

@@ -39,16 +39,17 @@ module e203_exu_alu(
   output i_longpipe, // Indicate this instruction is 
                      //   issued as a long pipe instruction
 
-  `ifdef E203_HAS_CSR_EAI//{
-  `ifndef E203_HAS_EAI
-  input  eai_xs_off,
-  `endif//
-  output         eai_csr_valid,
-  input          eai_csr_ready,
-  output  [31:0] eai_csr_addr,
-  output         eai_csr_wr,
-  output  [31:0] eai_csr_wdata,
-  input   [31:0] eai_csr_rdata,
+  `ifdef E203_HAS_CSR_NICE//{
+  output         nice_csr_valid,
+  input          nice_csr_ready,
+  output  [31:0] nice_csr_addr,
+  output         nice_csr_wr,
+  output  [31:0] nice_csr_wdata,
+  input   [31:0] nice_csr_rdata,
+  `endif//}
+
+  `ifdef E203_HAS_NICE//{
+  input  nice_xs_off,
   `endif//}
 
   output amo_wait,
@@ -146,8 +147,28 @@ module e203_exu_alu(
   input                          agu_icb_rsp_err  , // Response error
   input                          agu_icb_rsp_excl_ok,
   input  [`E203_XLEN-1:0]        agu_icb_rsp_rdata,
+  
+  `ifdef E203_HAS_NICE//{
+  //////////////////////////////////////////////////////////////
+  // The nice interface
+  //    * cmd channel
+  output                         nice_req_valid, // Handshake valid
+  input                          nice_req_ready, // Handshake ready
+  output [`E203_XLEN -1:0]       nice_req_instr,                               
+  output [`E203_XLEN -1:0]       nice_req_rs1, 
+  output [`E203_XLEN -1:0]       nice_req_rs2, 
+  //output                         nice_req_mmode , // O: current insns' mmode 
 
+  //    * RSP channel will be directly pass to longp-wback module
+  input                          nice_rsp_multicyc_valid, //I: current insn is multi-cycle.
+  output                         nice_rsp_multicyc_ready, //O:                             
 
+  output                         nice_longp_wbck_valid, // Handshake valid
+  input                          nice_longp_wbck_ready, // Handshake ready
+  output [`E203_ITAG_WIDTH -1:0] nice_o_itag, 
+
+  input                          i_nice_cmt_off_ilgl,
+  `endif//}
 
   input  clk,
   input  rst_n
@@ -166,6 +187,9 @@ module e203_exu_alu(
 `ifdef E203_SUPPORT_SHARE_MULDIV //{
   wire mdv_op = (~ifu_excp_op) & (i_info[`E203_DECINFO_GRP] == `E203_DECINFO_GRP_MULDIV); 
 `endif//E203_SUPPORT_SHARE_MULDIV}
+`ifdef E203_HAS_NICE//{
+  wire nice_op = (~ifu_excp_op) & (i_info[`E203_DECINFO_GRP] == `E203_DECINFO_GRP_NICE);
+`endif//}
 
   // The ALU incoming instruction may go to several different targets:
   //   * The ALUDATAPATH if it is a regular ALU instructions
@@ -181,7 +205,10 @@ module e203_exu_alu(
   wire bjp_i_valid = i_valid & bjp_op;
   wire csr_i_valid = i_valid & csr_op;
   wire ifu_excp_i_valid = i_valid & ifu_excp_op;
-
+`ifdef E203_HAS_NICE//{
+  wire nice_i_valid = i_valid & nice_op;
+  wire nice_i_ready;
+`endif//}
 `ifdef E203_SUPPORT_SHARE_MULDIV //{
   wire mdv_i_ready;
 `endif//E203_SUPPORT_SHARE_MULDIV}
@@ -199,17 +226,27 @@ module e203_exu_alu(
                    | (ifu_excp_i_ready & ifu_excp_op)
                    | (bjp_i_ready & bjp_op)
                    | (csr_i_ready & csr_op)
+                   `ifdef E203_HAS_NICE//{
+                   | (nice_i_ready & nice_op)
+		   `endif//}
                      ;
 
   wire agu_i_longpipe;
 `ifdef E203_SUPPORT_SHARE_MULDIV //{
   wire mdv_i_longpipe;
 `endif//E203_SUPPORT_SHARE_MULDIV}
+`ifdef E203_HAS_NICE//{
+  wire nice_o_longpipe;
+  wire nice_i_longpipe = nice_o_longpipe;
+`endif//}
 
   assign i_longpipe = (agu_i_longpipe & agu_op) 
                    `ifdef E203_SUPPORT_SHARE_MULDIV //{
                     | (mdv_i_longpipe & mdv_op) 
                    `endif//E203_SUPPORT_SHARE_MULDIV}
+                   `ifdef E203_HAS_NICE//{
+                    | (nice_i_longpipe & nice_op)
+		   `endif//}
                    ;
 
   //////////////////////////////////////////////////////////////
@@ -226,24 +263,68 @@ module e203_exu_alu(
   wire  [`E203_DECINFO_WIDTH-1:0]  csr_i_info  = {`E203_DECINFO_WIDTH{csr_op}} & i_info;  
   wire                             csr_i_rdwen =                      csr_op   & i_rdwen;  
 
-  `ifndef E203_HAS_EAI//{
-  wire eai_o_cmt_wr_reg;
-  wire csr_sel_eai;
+  `ifdef E203_HAS_CSR_NICE//{
+  wire csr_sel_nice;
   `endif//}
 
+  `ifdef E203_HAS_NICE//{
+  wire [`E203_XLEN-1:0]           nice_i_rs1  = {`E203_XLEN         {nice_op}} & i_rs1;
+  wire [`E203_XLEN-1:0]           nice_i_rs2  = {`E203_XLEN         {nice_op}} & i_rs2;
+  wire [`E203_ITAG_WIDTH-1:0]     nice_i_itag = {`E203_ITAG_WIDTH   {nice_op}} & i_itag;  
+  wire nice_o_valid; 
+  wire nice_o_ready;
+  //wire [`E203_XLEN-1:0] nice_o_wbck_wdat;
+  wire nice_o_wbck_err = i_nice_cmt_off_ilgl;
+  //wire nice_i_mmode = nice_op & i_mmode;
+
+
+  e203_exu_nice   u_e203_exu_nice (
+
+  .nice_i_xs_off      (nice_xs_off),
+  .nice_i_valid       (nice_i_valid), // Handshake valid
+  .nice_i_ready       (nice_i_ready), // Handshake ready
+  .nice_i_instr       (i_instr),
+  .nice_i_rs1         (nice_i_rs1), // Handshake valid
+  .nice_i_rs2         (nice_i_rs2), // Handshake ready
+  //.nice_i_mmode       (nice_i_mmode), // Handshake ready
+  .nice_i_itag        (nice_i_itag),
+  .nice_o_longpipe    (nice_o_longpipe),
+  // The nice Commit Interface
+  .nice_o_valid       (nice_o_valid), // Handshake valid
+  .nice_o_ready       (nice_o_ready), // Handshake ready
+
+  .nice_o_itag_valid  (nice_longp_wbck_valid), // Handshake valid
+  .nice_o_itag_ready  (nice_longp_wbck_ready), // Handshake ready
+  .nice_o_itag        (nice_o_itag),   
+  // The nice Response Interface
+  .nice_rsp_multicyc_valid(nice_rsp_multicyc_valid), //I: current insn is multi-cycle.
+  .nice_rsp_multicyc_ready(nice_rsp_multicyc_ready), //O:                             
+  // The nice Request Interface
+  .nice_req_valid     (nice_req_valid), // Handshake valid
+  .nice_req_ready     (nice_req_ready), // Handshake ready
+  .nice_req_instr     (nice_req_instr), // Handshake ready
+  .nice_req_rs1       (nice_req_rs1), // Handshake valid
+  .nice_req_rs2       (nice_req_rs2), // Handshake ready
+  //.nice_req_mmode     (nice_req_mmode), // Handshake ready
+
+  .clk               (clk),
+  .rst_n             (rst_n)       
+
+  );
+  `endif//}
+
+  
   e203_exu_alu_csrctrl u_e203_exu_alu_csrctrl(
 
-
-
-  `ifdef E203_HAS_CSR_EAI//{
-    .csr_sel_eai      (csr_sel_eai),
-    .eai_xs_off       (eai_xs_off),
-    .eai_csr_valid    (eai_csr_valid),
-    .eai_csr_ready    (eai_csr_ready),
-    .eai_csr_addr     (eai_csr_addr ),
-    .eai_csr_wr       (eai_csr_wr ),
-    .eai_csr_wdata    (eai_csr_wdata),
-    .eai_csr_rdata    (eai_csr_rdata),
+  `ifdef E203_HAS_CSR_NICE//{
+    .nice_xs_off       (nice_xs_off),
+    .csr_sel_nice      (csr_sel_nice),
+    .nice_csr_valid    (nice_csr_valid),
+    .nice_csr_ready    (nice_csr_ready),
+    .nice_csr_addr     (nice_csr_addr ),
+    .nice_csr_wr       (nice_csr_wr ),
+    .nice_csr_wdata    (nice_csr_wdata),
+    .nice_csr_rdata    (nice_csr_rdata),
   `endif//}
     .csr_access_ilgl  (csr_access_ilgl),
 
@@ -702,6 +783,9 @@ module e203_exu_alu(
 `ifdef E203_SUPPORT_SHARE_MULDIV //{
   wire o_sel_mdv = mdv_op;
 `endif//E203_SUPPORT_SHARE_MULDIV}
+`ifdef E203_HAS_NICE//{
+  wire o_sel_nice = nice_op;
+`endif//}
 
   assign o_valid =     (o_sel_alu      & alu_o_valid     )
                      | (o_sel_bjp      & bjp_o_valid     )
@@ -711,6 +795,9 @@ module e203_exu_alu(
                       `ifdef E203_SUPPORT_SHARE_MULDIV //{
                      | (o_sel_mdv      & mdv_o_valid     )
                       `endif//E203_SUPPORT_SHARE_MULDIV}
+                      `ifdef E203_HAS_NICE//{
+                     | (o_sel_nice      & nice_o_valid     )
+                      `endif//}
                      ;
 
   assign ifu_excp_o_ready = o_sel_ifu_excp & o_ready;
@@ -721,6 +808,9 @@ module e203_exu_alu(
 `endif//E203_SUPPORT_SHARE_MULDIV}
   assign bjp_o_ready      = o_sel_bjp & o_ready;
   assign csr_o_ready      = o_sel_csr & o_ready;
+`ifdef E203_HAS_NICE//{
+  assign nice_o_ready      = o_sel_nice & o_ready;
+`endif//}
 
   assign wbck_o_wdat = 
                     ({`E203_XLEN{o_sel_alu}} & alu_o_wbck_wdat)
@@ -731,6 +821,7 @@ module e203_exu_alu(
                   | ({`E203_XLEN{o_sel_mdv}} & mdv_o_wbck_wdat)
                       `endif//E203_SUPPORT_SHARE_MULDIV}
                   | ({`E203_XLEN{o_sel_ifu_excp}} & ifu_excp_o_wbck_wdat)
+                  //| ({`E203_XLEN{o_sel_nice}} & nice_o_wbck_wdat)
                   ;
 
   assign wbck_o_rdidx = i_rdidx; 
@@ -746,6 +837,9 @@ module e203_exu_alu(
                   | ({1{o_sel_mdv}} & mdv_o_wbck_err)
                       `endif//E203_SUPPORT_SHARE_MULDIV}
                   | ({1{o_sel_ifu_excp}} & ifu_excp_o_wbck_err)
+                    `ifdef E203_HAS_NICE//{
+                  | ({1{o_sel_nice}} & nice_o_wbck_err)
+                    `endif//}
                   ;
 
   //  Each Instruction need to commit or write-back

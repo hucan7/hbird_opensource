@@ -30,13 +30,13 @@
 module e203_core(
   output[`E203_PC_SIZE-1:0] inspect_pc,
 
-  `ifdef E203_HAS_CSR_EAI//{
-  output         eai_csr_valid,
-  input          eai_csr_ready,
-  output  [31:0] eai_csr_addr,
-  output         eai_csr_wr,
-  output  [31:0] eai_csr_wdata,
-  input   [31:0] eai_csr_rdata,
+  `ifdef E203_HAS_CSR_NICE//{
+  output         nice_csr_valid,
+  input          nice_csr_ready,
+  output  [31:0] nice_csr_addr,
+  output         nice_csr_wr,
+  output  [31:0] nice_csr_wdata,
+  input   [31:0] nice_csr_rdata,
   `endif//}
   output core_wfi,
   output tm_stop,
@@ -271,6 +271,41 @@ module e203_core(
   input  [`E203_XLEN-1:0]        lsu2dtcm_icb_rsp_rdata,
   `endif//}
 
+
+  `ifdef E203_HAS_NICE//{
+  input nice_mem_holdup  ,                 //O: nice occupys the memory. for avoid of dead-loop庐
+  // nice_req interface
+  output nice_req_valid  ,                 //O: handshake flag, cmd is valid
+  input  nice_req_ready  ,                 //I: handshake flag, cmd is accepted.
+  output [`E203_XLEN-1:0] nice_req_inst  , // O: inst sent to nice. 
+  output [`E203_XLEN-1:0] nice_req_rs1   , // O: rs op 1.
+  output [`E203_XLEN-1:0] nice_req_rs2   , // O: rs op 2.
+  //output                  nice_req_mmode , // O: current insns' mmode 
+
+  // icb_cmd_rsp interface
+  // for one cycle insn, the rsp data is valid at the same time of insn, so
+  // the handshake flags is useless.
+                                            
+  input                   nice_rsp_multicyc_valid , //I: current insn is multi-cycle.
+  output                  nice_rsp_multicyc_ready , //O: current insn is multi-cycle.
+  input  [`E203_XLEN-1:0] nice_rsp_multicyc_dat   , //I: one cycle result write-back val.
+  input                   nice_rsp_multicyc_err,
+
+  // lsu_req interface                                         
+  input                   nice_icb_cmd_valid  , //I: nice access main-mem req valid.
+  output                  nice_icb_cmd_ready  ,// O: nice access req is accepted.
+  input [`E203_XLEN-1:0]  nice_icb_cmd_addr   , //I : nice access main-mem address.
+  input                   nice_icb_cmd_read   , //I: nice access type. 
+  input [`E203_XLEN-1:0]  nice_icb_cmd_wdata  ,//I: nice write data.
+  input [1:0]             nice_icb_cmd_size   , //I: data size input.
+
+  // lsu_rsp interface                                         
+  output                  nice_icb_rsp_valid  , //O: main core responds result to nice.
+  input                   nice_icb_rsp_ready  ,// I: respond result is accepted.
+  output [`E203_XLEN-1:0] nice_icb_rsp_rdata  ,// O: rsp data.
+  output                  nice_icb_rsp_err    , // O : err flag
+  `endif//}
+
   output exu_active,
   output ifu_active,
   output lsu_active,
@@ -450,13 +485,13 @@ module e203_core(
 
   e203_exu u_e203_exu(
 
-  `ifdef E203_HAS_CSR_EAI//{
-    .eai_csr_valid (eai_csr_valid),
-    .eai_csr_ready (eai_csr_ready),
-    .eai_csr_addr  (eai_csr_addr ),
-    .eai_csr_wr    (eai_csr_wr   ),
-    .eai_csr_wdata (eai_csr_wdata),
-    .eai_csr_rdata (eai_csr_rdata),
+  `ifdef E203_HAS_CSR_NICE//{
+    .nice_csr_valid (nice_csr_valid),
+    .nice_csr_ready (nice_csr_ready),
+    .nice_csr_addr  (nice_csr_addr ),
+    .nice_csr_wr    (nice_csr_wr   ),
+    .nice_csr_wdata (nice_csr_wdata),
+    .nice_csr_rdata (nice_csr_rdata),
   `endif//}
 
 
@@ -565,6 +600,19 @@ module e203_core(
     .dec2ifu_divu           (dec2ifu_divu  ),
     .dec2ifu_remu           (dec2ifu_remu  ),
 
+    `ifdef E203_HAS_NICE//{
+    .nice_req_valid          (nice_req_valid ), //O: handshake flag, cmd is valid
+    .nice_req_ready          (nice_req_ready ),     //I: handshake flag, cmd is accepted.
+    .nice_req_inst           (nice_req_inst  ), // O: inst sent to nice. 
+    .nice_req_rs1            (nice_req_rs1   ), // O: rs op 1.
+    .nice_req_rs2            (nice_req_rs2   ), // O: rs op 2.
+    //.nice_req_mmode          (nice_req_mmode   ), // O: rs op 2.
+                                              
+    .nice_rsp_multicyc_valid (nice_rsp_multicyc_valid), //I: current insn is multi-cycle.
+    .nice_rsp_multicyc_ready (nice_rsp_multicyc_ready), //I: current insn is multi-cycle.
+    .nice_rsp_multicyc_dat   (nice_rsp_multicyc_dat), //I: one cycle result write-back val.
+    .nice_rsp_multicyc_err   (nice_rsp_multicyc_err  ),
+    `endif//}
 
     .clk_aon                (clk_aon),
     .clk                    (clk_core_exu),
@@ -680,6 +728,25 @@ module e203_core(
     .biu_icb_rsp_err    (lsu2biu_icb_rsp_err  ),
     .biu_icb_rsp_excl_ok(lsu2biu_icb_rsp_excl_ok),
     .biu_icb_rsp_rdata  (lsu2biu_icb_rsp_rdata),
+ 
+    `ifdef E203_HAS_NICE//{
+    .nice_mem_holdup     (nice_mem_holdup),
+    .nice_icb_cmd_valid  (nice_icb_cmd_valid), 
+    .nice_icb_cmd_ready  (nice_icb_cmd_ready),
+    .nice_icb_cmd_addr   (nice_icb_cmd_addr ), 
+    .nice_icb_cmd_read   (nice_icb_cmd_read ), 
+    .nice_icb_cmd_wdata  (nice_icb_cmd_wdata),
+    .nice_icb_cmd_size   (nice_icb_cmd_size), 
+    .nice_icb_cmd_wmask  (`E203_XLEN_MW'b0), 
+    .nice_icb_cmd_lock   (1'b0), 
+    .nice_icb_cmd_excl   (1'b0), 
+    
+    .nice_icb_rsp_valid  (nice_icb_rsp_valid), 
+    .nice_icb_rsp_ready  (nice_icb_rsp_ready), 
+    .nice_icb_rsp_rdata  (nice_icb_rsp_rdata), 
+    .nice_icb_rsp_err    (nice_icb_rsp_err), 
+    .nice_icb_rsp_excl_ok(), 
+    `endif//}
 
     .clk           (clk_core_lsu ),
     .rst_n         (rst_n        ) 

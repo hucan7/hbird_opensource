@@ -81,28 +81,29 @@ module e203_lsu_ctrl(
   output                         agu_icb_rsp_excl_ok,// Response exclusive okay
   output [`E203_XLEN-1:0]        agu_icb_rsp_rdata,
 
+`ifdef E203_HAS_NICE//{
   //////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////
-  // The EAI ICB Interface to LSU-ctrl
-  input                          eai_mem_holdup,
+  // The NICE ICB Interface to LSU-ctrl
+  input                          nice_mem_holdup,
   //    * Bus cmd channel
-  input                          eai_icb_cmd_valid,
-  output                         eai_icb_cmd_ready,
-  input  [`E203_ADDR_SIZE-1:0]   eai_icb_cmd_addr, 
-  input                          eai_icb_cmd_read, 
-  input  [`E203_XLEN-1:0]        eai_icb_cmd_wdata,
-  input  [`E203_XLEN/8-1:0]      eai_icb_cmd_wmask,
-  input                          eai_icb_cmd_lock,
-  input                          eai_icb_cmd_excl,
-  input  [1:0]                   eai_icb_cmd_size,
+  input                          nice_icb_cmd_valid,
+  output                         nice_icb_cmd_ready,
+  input  [`E203_ADDR_SIZE-1:0]   nice_icb_cmd_addr, 
+  input                          nice_icb_cmd_read, 
+  input  [`E203_XLEN-1:0]        nice_icb_cmd_wdata,
+  input  [`E203_XLEN/8-1:0]      nice_icb_cmd_wmask,
+  input                          nice_icb_cmd_lock,
+  input                          nice_icb_cmd_excl,
+  input  [1:0]                   nice_icb_cmd_size,
 
   //    * Bus RSP channel
-  output                         eai_icb_rsp_valid,
-  input                          eai_icb_rsp_ready,
-  output                         eai_icb_rsp_err  ,
-  output                         eai_icb_rsp_excl_ok,
-  output [`E203_XLEN-1:0]        eai_icb_rsp_rdata,
-
+  output                         nice_icb_rsp_valid,
+  input                          nice_icb_rsp_ready,
+  output                         nice_icb_rsp_err  ,
+  output                         nice_icb_rsp_excl_ok,
+  output [`E203_XLEN-1:0]        nice_icb_rsp_rdata,
+`endif//}
 
 
   `ifdef E203_HAS_DCACHE //{
@@ -199,21 +200,33 @@ module e203_lsu_ctrl(
   input                          biu_icb_rsp_excl_ok  ,
   input  [`E203_XLEN-1:0]        biu_icb_rsp_rdata,
 
-
   input  clk,
   input  rst_n
   );
 
-  // The EAI mem holdup signal will override other request to LSU-Ctrl
+  // The NICE mem holdup signal will override other request to LSU-Ctrl
   wire agu_icb_cmd_valid_pos;
   wire agu_icb_cmd_ready_pos;
-  assign agu_icb_cmd_valid_pos = (~eai_mem_holdup) & agu_icb_cmd_valid;
-  assign agu_icb_cmd_ready     = (~eai_mem_holdup) & agu_icb_cmd_ready_pos;
+  assign agu_icb_cmd_valid_pos = agu_icb_cmd_valid
+                                 `ifdef E203_HAS_NICE//{
+                                 & (~nice_mem_holdup)
+                                 `endif//}
+                                 ;
+  assign agu_icb_cmd_ready     = agu_icb_cmd_ready_pos
+                                 `ifdef E203_HAS_NICE//{
+                                 & (~nice_mem_holdup)
+                                 `endif//}
+                                 ;
 
-      `ifndef E203_HAS_FPU
-      localparam LSU_ARBT_I_NUM   = 2;
-      localparam LSU_ARBT_I_PTR_W = 1;
-      `endif
+`ifndef E203_HAS_FPU
+  localparam LSU_ARBT_I_PTR_W = 1;
+`ifdef E203_HAS_NICE//{
+  localparam LSU_ARBT_I_NUM   = 2;
+`endif//}
+`ifndef E203_HAS_NICE//{
+  localparam LSU_ARBT_I_NUM   = 1;
+`endif//}
+`endif
 
   
   // NOTE:
@@ -230,7 +243,15 @@ module e203_lsu_ctrl(
     `endif//}
   `endif//}
   //
-  //
+
+
+`ifdef E203_HAS_NICE//{
+  wire [`E203_XLEN_MW-1:0] nice_icb_cmd_wr_mask = 
+            ({`E203_XLEN_MW{nice_icb_cmd_size == 2'b00 }} & (4'b0001 << nice_icb_cmd_addr[1:0]))
+          | ({`E203_XLEN_MW{nice_icb_cmd_size == 2'b01 }} & (4'b0011 << {nice_icb_cmd_addr[1],1'b0}))
+          | ({`E203_XLEN_MW{nice_icb_cmd_size == 2'b10 }} & (4'b1111));
+`endif//}
+
   wire                  pre_agu_icb_rsp_valid;
   wire                  pre_agu_icb_rsp_ready;
   wire                  pre_agu_icb_rsp_err  ;
@@ -257,10 +278,15 @@ module e203_lsu_ctrl(
         ,agu_icb_cmd_addr 
         ,agu_icb_cmd_excl 
       };
-  wire [USR_W-1:0] eai_icb_cmd_usr = {USR_W-1{1'b0}};
+
+`ifdef E203_HAS_NICE//{
+  wire [USR_W-1:0] nice_icb_cmd_usr = {USR_W-1{1'b0}};
+`endif//}
+
   wire [USR_W-1:0] fpu_icb_cmd_usr = {USR_W-1{1'b0}};
 
   wire [USR_W-1:0]      pre_agu_icb_rsp_usr;
+
   assign 
       {
          pre_agu_icb_rsp_back2agu  
@@ -271,7 +297,11 @@ module e203_lsu_ctrl(
         ,pre_agu_icb_rsp_addr
         ,pre_agu_icb_rsp_excl 
       } = pre_agu_icb_rsp_usr;
-  wire [USR_W-1:0] eai_icb_rsp_usr;
+
+`ifdef E203_HAS_NICE//{
+  wire [USR_W-1:0] nice_icb_rsp_usr;
+`endif//}
+
   wire [USR_W-1:0] fpu_icb_rsp_usr;
 
   wire arbt_icb_cmd_valid;
@@ -317,115 +347,153 @@ module e203_lsu_ctrl(
   //CMD Channel
   wire [LSU_ARBT_I_NUM*1-1:0] arbt_bus_icb_cmd_valid_raw;
   assign arbt_bus_icb_cmd_valid_raw =
-      // The EAI take higher priority
+      // The NICE take higher priority
                            {
                              agu_icb_cmd_valid
-                           , eai_icb_cmd_valid
+                           `ifdef E203_HAS_NICE//{
+                           , nice_icb_cmd_valid
+                           `endif//}
                            } ;
 
   assign arbt_bus_icb_cmd_valid =
-      // The EAI take higher priority
+      // The NICE take higher priority
                            {
                              agu_icb_cmd_valid_pos
-                           , eai_icb_cmd_valid
+                           `ifdef E203_HAS_NICE//{
+                           , nice_icb_cmd_valid
+                           `endif//}
                            } ;
 
   assign arbt_bus_icb_cmd_addr =
                            {
                              agu_icb_cmd_addr
-                           , eai_icb_cmd_addr
+                           `ifdef E203_HAS_NICE//{
+                           , nice_icb_cmd_addr
+                           `endif//}
                            } ;
 
   assign arbt_bus_icb_cmd_read =
                            {
                              agu_icb_cmd_read
-                           , eai_icb_cmd_read
+                           `ifdef E203_HAS_NICE//{
+                           , nice_icb_cmd_read
+                           `endif//}
                            } ;
 
   assign arbt_bus_icb_cmd_wdata =
                            {
                              agu_icb_cmd_wdata
-                           , eai_icb_cmd_wdata
+                           `ifdef E203_HAS_NICE//{
+                           , nice_icb_cmd_wdata
+                           `endif//}
                            } ;
 
   assign arbt_bus_icb_cmd_wmask =
                            {
                              agu_icb_cmd_wmask
-                           , eai_icb_cmd_wmask
+                           `ifdef E203_HAS_NICE//{
+                           ,nice_icb_cmd_wr_mask
+                           `endif//}
                            } ;
                          
   assign arbt_bus_icb_cmd_lock =
                            {
                              agu_icb_cmd_lock
-                           , eai_icb_cmd_lock
+                           `ifdef E203_HAS_NICE//{
+                           , nice_icb_cmd_lock
+                           `endif//}
                            } ;
 
   assign arbt_bus_icb_cmd_burst =
                            {
                              2'b0
+                           `ifdef E203_HAS_NICE//{
                            , 2'b0
+                           `endif//}
                            } ;
 
   assign arbt_bus_icb_cmd_beat =
                            {
                              1'b0
+                           `ifdef E203_HAS_NICE//{
                            , 1'b0
+                           `endif//}
                            } ;
 
   assign arbt_bus_icb_cmd_excl =
                            {
                              agu_icb_cmd_excl
-                           , eai_icb_cmd_excl
+                           `ifdef E203_HAS_NICE//{
+                           , nice_icb_cmd_excl
+                           `endif//}
                            } ;
                            
   assign arbt_bus_icb_cmd_size =
                            {
                              agu_icb_cmd_size
-                           , eai_icb_cmd_size
+                           `ifdef E203_HAS_NICE//{
+                           , nice_icb_cmd_size
+                           `endif//}
                            } ;
 
   assign arbt_bus_icb_cmd_usr =
                            {
                              agu_icb_cmd_usr
-                           , eai_icb_cmd_usr
+                           `ifdef E203_HAS_NICE//{
+                           , nice_icb_cmd_usr
+                           `endif//}
                            } ;
 
   assign                   {
                              agu_icb_cmd_ready_pos
-                           , eai_icb_cmd_ready
+                           `ifdef E203_HAS_NICE//{
+                           , nice_icb_cmd_ready
+                           `endif//}
                            } = arbt_bus_icb_cmd_ready;
                            
 
   //RSP Channel
   assign                   {
                              pre_agu_icb_rsp_valid
-                           , eai_icb_rsp_valid
+                           `ifdef E203_HAS_NICE//{
+                           , nice_icb_rsp_valid
+                           `endif//}
                            } = arbt_bus_icb_rsp_valid;
 
   assign                   {
                              pre_agu_icb_rsp_err
-                           , eai_icb_rsp_err
+                           `ifdef E203_HAS_NICE//{
+                           , nice_icb_rsp_err
+                           `endif//}
                            } = arbt_bus_icb_rsp_err;
 
   assign                   {
                              pre_agu_icb_rsp_excl_ok
-                           , eai_icb_rsp_excl_ok
+                           `ifdef E203_HAS_NICE//{
+                           , nice_icb_rsp_excl_ok
+                           `endif//}
                            } = arbt_bus_icb_rsp_excl_ok;
 
 
   assign                   {
                              pre_agu_icb_rsp_rdata
-                           , eai_icb_rsp_rdata
+                           `ifdef E203_HAS_NICE//{
+                           , nice_icb_rsp_rdata
+                           `endif//}
                            } = arbt_bus_icb_rsp_rdata;
 
   assign                   {
                              pre_agu_icb_rsp_usr
-                           , eai_icb_rsp_usr
+                           `ifdef E203_HAS_NICE//{
+                           , nice_icb_rsp_usr
+                           `endif//}
                            } = arbt_bus_icb_rsp_usr;
 
   assign arbt_bus_icb_rsp_ready = {
                              pre_agu_icb_rsp_ready
-                           , eai_icb_rsp_ready
+                           `ifdef E203_HAS_NICE//{
+                           , nice_icb_rsp_ready
+                           `endif//}
                            };
 
   sirv_gnrl_icb_arbt # (

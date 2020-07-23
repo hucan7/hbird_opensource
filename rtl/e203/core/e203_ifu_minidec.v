@@ -85,7 +85,12 @@ module e203_ifu_minidec(
   .dec_imm(),
   .dec_pc(),
 
-  
+`ifdef E203_HAS_NICE//{
+  .dec_nice   (),
+  .nice_xs_off(1'b0),  
+  .nice_cmt_off_ilgl_o(),
+`endif//}
+
   .dec_mulhsu(dec_mulhsu),
   .dec_mul   (dec_mul   ),
   .dec_div   (dec_div   ),

@@ -28,24 +28,24 @@
 // ====================================================================
 `include "e203_defines.v"
 
-`ifdef E203_HAS_CSR_EAI//{
+`ifdef E203_HAS_CSR_NICE//{
 module e203_extend_csr(
 
   // The Handshake Interface 
-  input          eai_csr_valid,
-  output         eai_csr_ready,
+  input          nice_csr_valid,
+  output         nice_csr_ready,
 
-  input   [31:0] eai_csr_addr,
-  input          eai_csr_wr,
-  input   [31:0] eai_csr_wdata,
-  output  [31:0] eai_csr_rdata,
+  input   [31:0] nice_csr_addr,
+  input          nice_csr_wr,
+  input   [31:0] nice_csr_wdata,
+  output  [31:0] nice_csr_rdata,
 
   input  clk,
   input  rst_n
   );
 
-  assign eai_csr_ready = 1'b1;
-  assign eai_csr_rdata = 32'b0;
+  assign nice_csr_ready = 1'b1;
+  assign nice_csr_rdata = 32'b0;
 
 
 endmodule

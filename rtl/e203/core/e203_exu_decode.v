@@ -55,7 +55,15 @@ module e203_exu_decode(
   output dec_misalgn,
   output dec_buserr,
   output dec_ilegl,
-  
+
+  `ifdef E203_HAS_NICE//{
+  //////////////////////////////////////
+  //nice decode
+  input  nice_xs_off,  
+  output dec_nice,
+  output nice_cmt_off_ilgl_o,      
+  /////////////////////////////////////
+  `endif//}
 
   output dec_mulhsu,
   output dec_mul   ,
@@ -298,9 +306,25 @@ module e203_exu_decode(
   wire rv16_add          = rv16_jalr_mv_add // 
                          & (rv16_instr[12]) & (~rv16_rd_x0) & (~rv16_rs2_x0);
 
-  
- 
+  `ifdef E203_HAS_NICE//{
+  // ==========================================================================
+  // add nice logic 
 
+  wire nice_need_rs1 = rv32_instr[13];
+  wire nice_need_rs2 = rv32_instr[12];
+  wire nice_need_rd  = rv32_instr[14];
+  wire [31:5] nice_instr  = rv32_instr[31:5];
+
+  wire nice_op = rv32_custom0 | rv32_custom1 | rv32_custom2 | rv32_custom3;
+  assign dec_nice = nice_op;
+  
+  assign nice_cmt_off_ilgl_o = nice_xs_off & nice_op;
+
+  wire [`E203_DECINFO_NICE_WIDTH-1:0] nice_info_bus;
+  assign nice_info_bus[`E203_DECINFO_GRP    ]    = `E203_DECINFO_GRP_NICE;
+  assign nice_info_bus[`E203_DECINFO_RV32   ]    = rv32;
+  assign nice_info_bus[`E203_DECINFO_NICE_INSTR]  = nice_instr;
+  `endif//}
 
   // ===========================================================================
   // Branch Instructions
@@ -617,6 +641,9 @@ module e203_exu_decode(
   //   * ecall, ebreak  
   wire rv32_need_rd = 
                       (~rv32_rd_x0) & (
+                      `ifdef E203_HAS_NICE//{
+                      nice_op ? nice_need_rd :
+                      `endif//}
                     (
                       (~rv32_branch) & (~rv32_store)
                     & (~rv32_fence_fencei)
@@ -635,6 +662,9 @@ module e203_exu_decode(
   //   * csrrci
   wire rv32_need_rs1 =
                       (~rv32_rs1_x0) & (
+                      `ifdef E203_HAS_NICE//{
+                      nice_op ? nice_need_rs1 :
+                      `endif//}
                     (
                       (~rv32_lui)
                     & (~rv32_auipc)
@@ -653,6 +683,9 @@ module e203_exu_decode(
   //   * rv32_op
   //   * rv32_amo except the rv32_lr_w
   wire rv32_need_rs2 = (~rv32_rs2_x0) & (
+                 `ifdef E203_HAS_NICE//{
+                 nice_op ? nice_need_rs2 :
+                 `endif//}
                 (
                  (rv32_branch)
                | (rv32_store)
@@ -955,6 +988,9 @@ module e203_exu_decode(
             | ({`E203_DECINFO_WIDTH{bjp_op}}     & {{`E203_DECINFO_WIDTH-`E203_DECINFO_BJP_WIDTH{1'b0}},bjp_info_bus})
             | ({`E203_DECINFO_WIDTH{csr_op}}     & {{`E203_DECINFO_WIDTH-`E203_DECINFO_CSR_WIDTH{1'b0}},csr_info_bus})
             | ({`E203_DECINFO_WIDTH{muldiv_op}}  & {{`E203_DECINFO_WIDTH-`E203_DECINFO_CSR_WIDTH{1'b0}},muldiv_info_bus})
+           `ifdef E203_HAS_NICE//{
+            | ({`E203_DECINFO_WIDTH{nice_op}}     & {{`E203_DECINFO_WIDTH-`E203_DECINFO_NICE_WIDTH{1'b0}},nice_info_bus})
+           `endif//}
               ;
 
 
@@ -964,6 +1000,9 @@ module e203_exu_decode(
             | bjp_op
             | csr_op
             | muldiv_op
+           `ifdef E203_HAS_NICE//{
+            | nice_op
+           `endif//}
             ;
 
   // To decode the registers for Rv16, divided into 8 groups

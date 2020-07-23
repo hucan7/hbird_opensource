@@ -477,7 +477,7 @@ module e203_exu_excp(
     : (alu_excp_flush_req_ecall & s_mode) ? 5'd9 //Environment call from S-mode
     : (alu_excp_flush_req_ecall & h_mode) ? 5'd10 //Environment call from H-mode
     : (alu_excp_flush_req_ecall & m_mode) ? 5'd11 //Environment call from M-mode
-    : longp_excp_flush_req_insterr ? 5'd16// This only happened for the EAI long instructions actually  
+    : longp_excp_flush_req_insterr ? 5'd16// This only happened for the NICE long instructions actually  
     : 5'h1F;//Otherwise a reserved value
 
   // mbadaddr is an XLEN-bit read-write register formatted as shown in Figure 3.21. When 

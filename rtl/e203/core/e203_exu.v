@@ -163,17 +163,33 @@ module e203_exu(
   input                          agu_icb_rsp_excl_ok,
   input  [`E203_XLEN-1:0]        agu_icb_rsp_rdata,
 
-  `ifdef E203_HAS_CSR_EAI//{
-  output         eai_csr_valid,
-  input          eai_csr_ready,
-  output  [31:0] eai_csr_addr,
-  output         eai_csr_wr,
-  output  [31:0] eai_csr_wdata,
-  input   [31:0] eai_csr_rdata,
+  `ifdef E203_HAS_CSR_NICE//{
+  output         nice_csr_valid,
+  input          nice_csr_ready,
+  output  [31:0] nice_csr_addr,
+  output         nice_csr_wr,
+  output  [31:0] nice_csr_wdata,
+  input   [31:0] nice_csr_rdata,
   `endif//}
 
+  `ifdef E203_HAS_NICE//{
+  //////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////
+  // The nice interface
+  //
+  //    * instruction cmd channel
+  output                      nice_req_valid  , // O: handshake flag, cmd is valid
+  input                       nice_req_ready  , // I: handshake flag, cmd is accepted.
+  output [`E203_XLEN-1:0]     nice_req_inst   , // O: inst sent to nice. 
+  output [`E203_XLEN-1:0]     nice_req_rs1    , // O: rs op 1.
+  output [`E203_XLEN-1:0]     nice_req_rs2    , // O: rs op 2.
+  //output                      nice_req_mmode  , // O: current insns' mmode 
 
-
+  input                       nice_rsp_multicyc_valid , //I: current insn is multi-cycle.
+  output                      nice_rsp_multicyc_ready , //                               
+  input  [`E203_XLEN-1:0]     nice_rsp_multicyc_dat   , //I: one cycle result write-back val.
+  input                       nice_rsp_multicyc_err   ,
+  `endif//}
 
   input  test_mode,
   input  clk_aon,
@@ -227,6 +243,10 @@ module e203_exu(
   wire dec_buserr;
   wire dec_ilegl;
 
+  `ifdef E203_HAS_NICE//{
+  wire nice_cmt_off_ilgl;
+  wire nice_xs_off;
+  `endif//}
 
   //////////////////////////////////////////////////////////////
   // The Decoded Info-Bus
@@ -248,14 +268,18 @@ module e203_exu(
     .dec_jalr_rs1idx(),
     .dec_bjp_imm(),
 
+  `ifdef E203_HAS_NICE//{
+    .dec_nice   (),
+    .nice_xs_off(nice_xs_off),  
+    .nice_cmt_off_ilgl_o(nice_cmt_off_ilgl),      
+  `endif//}
+
     .dec_mulhsu  (dec2ifu_mulhsu),
     .dec_mul     (),
     .dec_div     (dec2ifu_div   ),
     .dec_rem     (dec2ifu_rem   ),
     .dec_divu    (dec2ifu_divu  ),
     .dec_remu    (dec2ifu_remu  ),
-
-    
 
 
     .dec_info  (dec_info ),
@@ -347,7 +371,6 @@ module e203_exu(
     .disp_i_buserr       (dec_buserr     ),
     .disp_i_ilegl        (dec_ilegl      ),
 
-
     .disp_o_alu_valid    (disp_alu_valid   ),
     .disp_o_alu_ready    (disp_alu_ready   ),
     .disp_o_alu_longpipe (disp_alu_longpipe),
@@ -370,7 +393,7 @@ module e203_exu(
     .disp_oitf_rs1en     (disp_oitf_rs1en),
     .disp_oitf_rs2en     (disp_oitf_rs2en),
     .disp_oitf_rs3en     (disp_oitf_rs3en),
-    .disp_oitf_rdwen     (disp_oitf_rdwen ),
+    .disp_oitf_rdwen     (disp_oitf_rdwen),
     .disp_oitf_rs1idx    (disp_oitf_rs1idx),
     .disp_oitf_rs2idx    (disp_oitf_rs2idx),
     .disp_oitf_rs3idx    (disp_oitf_rs3idx),
@@ -485,24 +508,26 @@ module e203_exu(
 
   wire nonflush_cmt_ena;
 
-
-  wire eai_xs_off;
-
   wire csr_access_ilgl;
 
   wire mdv_nob2b;
 
+  `ifdef E203_HAS_NICE//{
+  wire nice_longp_wbck_valid;
+  wire nice_longp_wbck_ready;
+  wire [`E203_ITAG_WIDTH-1:0] nice_o_itag;
+  `endif//}
 
   e203_exu_alu u_e203_exu_alu(
 
 
-  `ifdef E203_HAS_CSR_EAI//{
-    .eai_csr_valid (eai_csr_valid),
-    .eai_csr_ready (eai_csr_ready),
-    .eai_csr_addr  (eai_csr_addr ),
-    .eai_csr_wr    (eai_csr_wr   ),
-    .eai_csr_wdata (eai_csr_wdata),
-    .eai_csr_rdata (eai_csr_rdata),
+  `ifdef E203_HAS_CSR_NICE//{
+    .nice_csr_valid (nice_csr_valid),
+    .nice_csr_ready (nice_csr_ready),
+    .nice_csr_addr  (nice_csr_addr ),
+    .nice_csr_wr    (nice_csr_wr   ),
+    .nice_csr_wdata (nice_csr_wdata),
+    .nice_csr_rdata (nice_csr_rdata),
   `endif//}
     .csr_access_ilgl     (csr_access_ilgl),
     .nonflush_cmt_ena    (nonflush_cmt_ena),
@@ -513,7 +538,11 @@ module e203_exu(
     .i_itag              (disp_alu_itag    ),
     .i_rs1               (disp_alu_rs1     ),
     .i_rs2               (disp_alu_rs2     ),
-    .eai_xs_off          (eai_xs_off),
+
+  `ifdef E203_HAS_NICE//{
+    .nice_xs_off         (nice_xs_off),
+  `endif//}
+
     .i_rdwen             (disp_alu_rdwen   ),
     .i_rdidx             (disp_alu_rdidx   ),
     .i_info              (disp_alu_info    ),
@@ -539,8 +568,8 @@ module e203_exu(
     .cmt_o_imm           (alu_cmt_imm        ),
     .cmt_o_rv32          (alu_cmt_rv32       ),
     .cmt_o_bjp           (alu_cmt_bjp        ),
-    .cmt_o_dret          (alu_cmt_dret        ),
-    .cmt_o_mret          (alu_cmt_mret        ),
+    .cmt_o_dret          (alu_cmt_dret       ),
+    .cmt_o_mret          (alu_cmt_mret       ),
     .cmt_o_ecall         (alu_cmt_ecall      ),
     .cmt_o_ebreak        (alu_cmt_ebreak     ),
     .cmt_o_fencei        (alu_cmt_fencei     ),
@@ -592,6 +621,25 @@ module e203_exu(
 
 
     .mdv_nob2b         (mdv_nob2b),
+
+  `ifdef E203_HAS_NICE//{
+    .nice_req_valid  (nice_req_valid),
+    .nice_req_ready  (nice_req_ready),
+    .nice_req_instr  (nice_req_inst ),
+    .nice_req_rs1    (nice_req_rs1  ), 
+    .nice_req_rs2    (nice_req_rs2  ), 
+    //.nice_req_mmode  (nice_req_mmode), 
+
+    // RSP channel for itag read. 
+    .nice_rsp_multicyc_valid (nice_rsp_multicyc_valid), //I: current insn is multi-cycle.
+    .nice_rsp_multicyc_ready (nice_rsp_multicyc_ready), //O:                             
+
+    .nice_longp_wbck_valid   (nice_longp_wbck_valid  ), // Handshake valid
+    .nice_longp_wbck_ready   (nice_longp_wbck_ready  ), // Handshake ready
+    .nice_o_itag             (nice_o_itag            ),
+
+    .i_nice_cmt_off_ilgl     (nice_cmt_off_ilgl),
+  `endif//}
 
     .clk                 (clk          ),
     .rst_n               (rst_n        ) 
@@ -650,9 +698,14 @@ module e203_exu(
     .oitf_empty          (oitf_empty    ),
     .oitf_ret_ptr        (oitf_ret_ptr  ),
     .oitf_ret_ena        (oitf_ret_ena  ),
-    
 
-
+  `ifdef E203_HAS_NICE//{
+    .nice_longp_wbck_i_valid    (nice_longp_wbck_valid), 
+    .nice_longp_wbck_i_ready    (nice_longp_wbck_ready), 
+    .nice_longp_wbck_i_wdat     (nice_rsp_multicyc_dat),
+    .nice_longp_wbck_i_err      (nice_rsp_multicyc_err),
+    .nice_longp_wbck_i_itag     (nice_o_itag),
+  `endif//}
 
     .clk                 (clk          ),
     .rst_n               (rst_n        ) 
@@ -835,7 +888,9 @@ module e203_exu(
 
   e203_exu_csr u_e203_exu_csr(
     .csr_access_ilgl     (csr_access_ilgl),
-    .eai_xs_off          (eai_xs_off),
+  `ifdef E203_HAS_NICE//{
+    .nice_xs_off         (nice_xs_off),
+  `endif//}
     .nonflush_cmt_ena    (nonflush_cmt_ena),
     .tm_stop             (tm_stop),
     .itcm_nohold         (itcm_nohold),
