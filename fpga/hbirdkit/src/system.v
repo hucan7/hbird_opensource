@@ -14,27 +14,11 @@ module system
   output wire qspi0_sck,
   inout wire [3:0] qspi0_dq,
                            
-  //gpio
-  inout wire [31:0] gpio,//GPIO00~GPIO031
+  //gpioA
+  inout wire [31:0] gpioA,//GPIOA00~GPIOA31
 
-  //UART0
-  input  wire uart0_rxd,
-  output wire uart0_txd,
-
-  //(Q)SPI1
-  output wire qspi1_cs,
-  output wire qspi1_sck,
-  inout wire [3:0] qspi1_dq,
-
-  //I2C0
-  inout wire i2c0_scl,
-  inout wire i2c0_sda,
-
-  //PWM
-  output wire [3:0] pwm0_ch,
-  output wire [3:0] pwm1_ch,
-  output wire [3:0] pwm2_ch,
-  output wire [3:0] pwm3_ch,
+  //gpioB
+  inout wire [31:0] gpioB,//GPIOB00~GPIOB31
 
   // JD (used for JTAG connection)
   inout wire mcu_TDO,//MCU_TDO-N17
@@ -71,10 +55,14 @@ module system
   wire dut_io_pads_jtag_TDO_o_oval;
   wire dut_io_pads_jtag_TDO_o_oe;
 
-  wire [32-1:0] dut_io_pads_gpio_i_ival;
-  wire [32-1:0] dut_io_pads_gpio_o_oval;
-  wire [32-1:0] dut_io_pads_gpio_o_oe;
-   
+  wire [32-1:0] dut_io_pads_gpioA_i_ival;
+  wire [32-1:0] dut_io_pads_gpioA_o_oval;
+  wire [32-1:0] dut_io_pads_gpioA_o_oe;
+
+  wire [32-1:0] dut_io_pads_gpioB_i_ival;
+  wire [32-1:0] dut_io_pads_gpioB_o_oval;
+  wire [32-1:0] dut_io_pads_gpioB_o_oe;
+
   wire dut_io_pads_qspi0_sck_o_oval;
   wire dut_io_pads_qspi0_cs_0_o_oval;
   wire dut_io_pads_qspi0_dq_0_i_ival;
@@ -90,27 +78,6 @@ module system
   wire dut_io_pads_qspi0_dq_3_o_oval;
   wire dut_io_pads_qspi0_dq_3_o_oe;
 
-  wire dut_io_pads_qspi1_sck_o_oval;
-  wire dut_io_pads_qspi1_cs_0_o_oval;
-  wire dut_io_pads_qspi1_dq_0_i_ival;
-  wire dut_io_pads_qspi1_dq_0_o_oval;
-  wire dut_io_pads_qspi1_dq_0_o_oe;
-  wire dut_io_pads_qspi1_dq_1_i_ival;
-  wire dut_io_pads_qspi1_dq_1_o_oval;
-  wire dut_io_pads_qspi1_dq_1_o_oe;
-  wire dut_io_pads_qspi1_dq_2_i_ival;
-  wire dut_io_pads_qspi1_dq_2_o_oval;
-  wire dut_io_pads_qspi1_dq_2_o_oe;
-  wire dut_io_pads_qspi1_dq_3_i_ival;
-  wire dut_io_pads_qspi1_dq_3_o_oval;
-  wire dut_io_pads_qspi1_dq_3_o_oe;
-
-  wire dut_io_pads_i2c0_scl_o_oen ;
-  wire dut_io_pads_i2c0_sda_o_oen ;
-  wire dut_io_pads_i2c0_sda_o_oval;
-  wire dut_io_pads_i2c0_scl_o_oval;
-  wire dut_io_pads_i2c0_scl_i_ival;
-  wire dut_io_pads_i2c0_sda_i_ival;
 
   wire dut_io_pads_aon_erst_n_i_ival;
   wire dut_io_pads_aon_pmu_dwakeup_n_i_ival;
@@ -175,55 +142,6 @@ module system
     .T(~qspi0_ui_dq_oe)
   );
 
-  //=================================================
-  // SPI1 Interface
-
-  wire [3:0] qspi1_ui_dq_o; 
-  wire [3:0] qspi1_ui_dq_oe;
-  wire [3:0] qspi1_ui_dq_i;
-
-  PULLUP qspi1_pullup[3:0]
-  (
-    .O(qspi1_dq)
-  );
-
-  IOBUF qspi1_iobuf[3:0]
-  (
-    .IO(qspi1_dq),
-    .O(qspi1_ui_dq_i),
-    .I(qspi1_ui_dq_o),
-    .T(~qspi1_ui_dq_oe)
-  );
-
-
-  //=================================================
-  // I2C0 Interface
-
-  PULLUP i2c0_scl_pullup
-  (
-    .O(i2c0_scl)
-  );
-
-  IOBUF i2c0_scl_iobuf
-  (
-    .IO(i2c0_scl),
-    .O(dut_io_pads_i2c0_scl_i_ival),
-    .I(dut_io_pads_i2c0_scl_o_oval),
-    .T(dut_io_pads_i2c0_scl_o_oen)
-  );
-
-  PULLUP i2c0_sda_pullup
-  (
-    .O(i2c0_sda)
-  );
-
-  IOBUF i2c0_sda_iobuf
-  (
-    .IO(i2c0_sda),
-    .O(dut_io_pads_i2c0_sda_i_ival),
-    .I(dut_io_pads_i2c0_sda_o_oval),
-    .T(dut_io_pads_i2c0_sda_o_oen)
-  );
 
   //=================================================
   // IOBUF instantiation for GPIOs
@@ -235,15 +153,28 @@ module system
     .IOSTANDARD("DEFAULT"),
     .SLEW("SLOW")
   )
-  gpio_iobuf[31:0]
+  gpioA_iobuf[31:0]
   (
-    .O(dut_io_pads_gpio_i_ival),
-    .IO(gpio),
-    .I(dut_io_pads_gpio_o_oval),
-    .T(~dut_io_pads_gpio_o_oe)
+    .O(dut_io_pads_gpioA_i_ival),
+    .IO(gpioA),
+    .I(dut_io_pads_gpioA_o_oval),
+    .T(~dut_io_pads_gpioA_o_oe)
   );
 
-
+  IOBUF
+  #(
+    .DRIVE(12),
+    .IBUF_LOW_PWR("TRUE"),
+    .IOSTANDARD("DEFAULT"),
+    .SLEW("SLOW")
+  )
+  gpioB_iobuf[31:0]
+  (
+    .O(dut_io_pads_gpioB_i_ival),
+    .IO(gpioB),
+    .I(dut_io_pads_gpioB_o_oval),
+    .T(~dut_io_pads_gpioB_o_oe)
+  );
   //=================================================
   // JTAG IOBUFs
 
@@ -358,12 +289,13 @@ module system
     .io_pads_jtag_TDO_o_oval(dut_io_pads_jtag_TDO_o_oval),
     .io_pads_jtag_TDO_o_oe  (dut_io_pads_jtag_TDO_o_oe),
 
-    .io_pads_gpio_i_ival(dut_io_pads_gpio_i_ival),
-    .io_pads_gpio_o_oval(dut_io_pads_gpio_o_oval),
-    .io_pads_gpio_o_oe  (dut_io_pads_gpio_o_oe),
+    .io_pads_gpioA_i_ival(dut_io_pads_gpioA_i_ival),
+    .io_pads_gpioA_o_oval(dut_io_pads_gpioA_o_oval),
+    .io_pads_gpioA_o_oe  (dut_io_pads_gpioA_o_oe),
 
-    .io_pads_uart0_rxd_i_ival(uart0_rxd),
-    .io_pads_uart0_txd_o_oval(uart0_txd),
+    .io_pads_gpioB_i_ival(dut_io_pads_gpioB_i_ival),
+    .io_pads_gpioB_o_oval(dut_io_pads_gpioB_o_oval),
+    .io_pads_gpioB_o_oe  (dut_io_pads_gpioB_o_oe),
 
     .io_pads_qspi0_sck_o_oval (dut_io_pads_qspi0_sck_o_oval),
     .io_pads_qspi0_cs_0_o_oval(dut_io_pads_qspi0_cs_0_o_oval),
@@ -381,51 +313,6 @@ module system
     .io_pads_qspi0_dq_3_o_oval(dut_io_pads_qspi0_dq_3_o_oval),
     .io_pads_qspi0_dq_3_o_oe  (dut_io_pads_qspi0_dq_3_o_oe),
 
-
-    .io_pads_qspi1_sck_o_oval (dut_io_pads_qspi1_sck_o_oval),
-    .io_pads_qspi1_cs_0_o_oval(dut_io_pads_qspi1_cs_0_o_oval),
-
-    .io_pads_qspi1_dq_0_i_ival(dut_io_pads_qspi1_dq_0_i_ival),
-    .io_pads_qspi1_dq_0_o_oval(dut_io_pads_qspi1_dq_0_o_oval),
-    .io_pads_qspi1_dq_0_o_oe  (dut_io_pads_qspi1_dq_0_o_oe),
-    .io_pads_qspi1_dq_1_i_ival(dut_io_pads_qspi1_dq_1_i_ival),
-    .io_pads_qspi1_dq_1_o_oval(dut_io_pads_qspi1_dq_1_o_oval),
-    .io_pads_qspi1_dq_1_o_oe  (dut_io_pads_qspi1_dq_1_o_oe),
-    .io_pads_qspi1_dq_2_i_ival(dut_io_pads_qspi1_dq_2_i_ival),
-    .io_pads_qspi1_dq_2_o_oval(dut_io_pads_qspi1_dq_2_o_oval),
-    .io_pads_qspi1_dq_2_o_oe  (dut_io_pads_qspi1_dq_2_o_oe),
-    .io_pads_qspi1_dq_3_i_ival(dut_io_pads_qspi1_dq_3_i_ival),
-    .io_pads_qspi1_dq_3_o_oval(dut_io_pads_qspi1_dq_3_o_oval),
-    .io_pads_qspi1_dq_3_o_oe  (dut_io_pads_qspi1_dq_3_o_oe),
-
-
-    .io_pads_i2c0_scl_o_oen (dut_io_pads_i2c0_scl_o_oen),
-    .io_pads_i2c0_sda_o_oen (dut_io_pads_i2c0_sda_o_oen),
-    .io_pads_i2c0_sda_o_oval(dut_io_pads_i2c0_sda_o_oval),
-    .io_pads_i2c0_scl_o_oval(dut_io_pads_i2c0_scl_o_oval),
-    .io_pads_i2c0_scl_i_ival(dut_io_pads_i2c0_scl_i_ival),
-    .io_pads_i2c0_sda_i_ival(dut_io_pads_i2c0_sda_i_ival),
-
-
-    .io_pads_pwm0_ch0_o_oval(pwm0_ch[0]),
-    .io_pads_pwm0_ch1_o_oval(pwm0_ch[1]),
-    .io_pads_pwm0_ch2_o_oval(pwm0_ch[2]),
-    .io_pads_pwm0_ch3_o_oval(pwm0_ch[3]),
-
-    .io_pads_pwm1_ch0_o_oval(pwm1_ch[0]),
-    .io_pads_pwm1_ch1_o_oval(pwm1_ch[1]),
-    .io_pads_pwm1_ch2_o_oval(pwm1_ch[2]),
-    .io_pads_pwm1_ch3_o_oval(pwm1_ch[3]),
-
-    .io_pads_pwm2_ch0_o_oval(pwm2_ch[0]),
-    .io_pads_pwm2_ch1_o_oval(pwm2_ch[1]),
-    .io_pads_pwm2_ch2_o_oval(pwm2_ch[2]),
-    .io_pads_pwm2_ch3_o_oval(pwm2_ch[3]),
-
-    .io_pads_pwm3_ch0_o_oval(pwm3_ch[0]),
-    .io_pads_pwm3_ch1_o_oval(pwm3_ch[1]),
-    .io_pads_pwm3_ch2_o_oval(pwm3_ch[2]),
-    .io_pads_pwm3_ch3_o_oval(pwm3_ch[3]),
 
        // Note: this is the real SoC top level reset signal
     .io_pads_aon_erst_n_i_ival(ck_rst),
@@ -482,27 +369,6 @@ module system
   assign dut_io_pads_qspi0_dq_1_i_ival = qspi0_ui_dq_i[1];
   assign dut_io_pads_qspi0_dq_2_i_ival = qspi0_ui_dq_i[2];
   assign dut_io_pads_qspi0_dq_3_i_ival = qspi0_ui_dq_i[3];
-
-
-
-  assign qspi1_sck = dut_io_pads_qspi1_sck_o_oval;
-  assign qspi1_cs  = dut_io_pads_qspi1_cs_0_o_oval;
-  assign qspi1_ui_dq_o = {
-    dut_io_pads_qspi1_dq_3_o_oval,
-    dut_io_pads_qspi1_dq_2_o_oval,
-    dut_io_pads_qspi1_dq_1_o_oval,
-    dut_io_pads_qspi1_dq_0_o_oval
-  };
-  assign qspi1_ui_dq_oe = {
-    dut_io_pads_qspi1_dq_3_o_oe,
-    dut_io_pads_qspi1_dq_2_o_oe,
-    dut_io_pads_qspi1_dq_1_o_oe,
-    dut_io_pads_qspi1_dq_0_o_oe
-  };
-  assign dut_io_pads_qspi1_dq_0_i_ival = qspi1_ui_dq_i[0];
-  assign dut_io_pads_qspi1_dq_1_i_ival = qspi1_ui_dq_i[1];
-  assign dut_io_pads_qspi1_dq_2_i_ival = qspi1_ui_dq_i[2];
-  assign dut_io_pads_qspi1_dq_3_i_ival = qspi1_ui_dq_i[3];
 
 
 

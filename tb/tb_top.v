@@ -308,12 +308,13 @@ e203_soc_top u_e203_soc_top(
    .io_pads_jtag_TDO_o_oval (jtag_TDO),
    .io_pads_jtag_TDO_o_oe (),
 
-   .io_pads_gpio_i_ival(32'b0),
-   .io_pads_gpio_o_oval(),
-   .io_pads_gpio_o_oe  (),
+   .io_pads_gpioA_i_ival(32'b0),
+   .io_pads_gpioA_o_oval(),
+   .io_pads_gpioA_o_oe  (),
 
-   .io_pads_uart0_rxd_i_ival(1'b1),
-   .io_pads_uart0_txd_o_oval(),
+   .io_pads_gpioB_i_ival(32'b0),
+   .io_pads_gpioB_o_oval(),
+   .io_pads_gpioB_o_oe  (),
 
    .io_pads_qspi0_sck_o_oval (),
    .io_pads_qspi0_cs_0_o_oval(),
@@ -329,48 +330,6 @@ e203_soc_top u_e203_soc_top(
    .io_pads_qspi0_dq_3_i_ival(1'b1),
    .io_pads_qspi0_dq_3_o_oval(),
    .io_pads_qspi0_dq_3_o_oe  (),
-
-   .io_pads_qspi1_sck_o_oval (),
-   .io_pads_qspi1_cs_0_o_oval(),
-   .io_pads_qspi1_dq_0_i_ival(1'b1),
-   .io_pads_qspi1_dq_0_o_oval(),
-   .io_pads_qspi1_dq_0_o_oe  (),
-   .io_pads_qspi1_dq_1_i_ival(1'b1),
-   .io_pads_qspi1_dq_1_o_oval(),
-   .io_pads_qspi1_dq_1_o_oe  (),
-   .io_pads_qspi1_dq_2_i_ival(1'b1),
-   .io_pads_qspi1_dq_2_o_oval(),
-   .io_pads_qspi1_dq_2_o_oe  (),
-   .io_pads_qspi1_dq_3_i_ival(1'b1),
-   .io_pads_qspi1_dq_3_o_oval(),
-   .io_pads_qspi1_dq_3_o_oe  (),
-
-   .io_pads_i2c0_scl_o_oen   (),
-   .io_pads_i2c0_sda_o_oen   (),
-   .io_pads_i2c0_sda_o_oval  (),
-   .io_pads_i2c0_scl_o_oval  (),
-   .io_pads_i2c0_scl_i_ival  (1'b1),
-   .io_pads_i2c0_sda_i_ival  (1'b1),  
-
-   .io_pads_pwm0_ch0_o_oval  (),
-   .io_pads_pwm0_ch1_o_oval  (),
-   .io_pads_pwm0_ch2_o_oval  (),
-   .io_pads_pwm0_ch3_o_oval  (),
-
-   .io_pads_pwm1_ch0_o_oval  (),
-   .io_pads_pwm1_ch1_o_oval  (),
-   .io_pads_pwm1_ch2_o_oval  (),
-   .io_pads_pwm1_ch3_o_oval  (),
-
-   .io_pads_pwm2_ch0_o_oval  (),
-   .io_pads_pwm2_ch1_o_oval  (),
-   .io_pads_pwm2_ch2_o_oval  (),
-   .io_pads_pwm2_ch3_o_oval  (),
-
-   .io_pads_pwm3_ch0_o_oval  (),
-   .io_pads_pwm3_ch1_o_oval  (),
-   .io_pads_pwm3_ch2_o_oval  (),
-   .io_pads_pwm3_ch3_o_oval  (),
 
    .io_pads_aon_erst_n_i_ival (rst_n),//This is the real reset, active low
    .io_pads_aon_pmu_dwakeup_n_i_ival (1'b1),

@@ -43,10 +43,10 @@ module apb_spi_master
     output logic                      spi_sdo1,
     output logic                      spi_sdo2,
     output logic                      spi_sdo3,
-    output logic                      spi_oen0,
-    output logic                      spi_oen1,
-    output logic                      spi_oen2,
-    output logic                      spi_oen3,
+    output logic                      spi_oe0,
+    output logic                      spi_oe1,
+    output logic                      spi_oe2,
+    output logic                      spi_oe3,
     input  logic                      spi_sdi0,
     input  logic                      spi_sdi1,
     input  logic                      spi_sdi2,
@@ -251,34 +251,34 @@ module apb_spi_master
 
     always_comb
     begin
-        spi_oen0 = 1'b0;
-        spi_oen1 = 1'b0;
-        spi_oen2 = 1'b0;
-        spi_oen3 = 1'b0;
+        spi_oe0 = 1'b0;
+        spi_oe1 = 1'b0;
+        spi_oe2 = 1'b0;
+        spi_oe3 = 1'b0;
 
         case(spi_mode)
         `SPI_STD:
         begin
-            spi_oen0 = 1'b1;
-            spi_oen1 = 1'b0;
-            spi_oen2 = 1'b0;
-            spi_oen3 = 1'b0;
+            spi_oe0 = 1'b1;
+            spi_oe1 = 1'b0;
+            spi_oe2 = 1'b0;
+            spi_oe3 = 1'b0;
         end
 
         `SPI_QUAD_TX:
         begin
-	    spi_oen0 = 1'b1;
-            spi_oen1 = 1'b1;
-            spi_oen2 = 1'b1;
-            spi_oen3 = 1'b1;
+	    spi_oe0 = 1'b1;
+            spi_oe1 = 1'b1;
+            spi_oe2 = 1'b1;
+            spi_oe3 = 1'b1;
         end
 
         `SPI_QUAD_RX :
         begin
-	    spi_oen0 = 1'b0;
-            spi_oen1 = 1'b0;
-            spi_oen2 = 1'b0;
-            spi_oen3 = 1'b0;
+	    spi_oe0 = 1'b0;
+            spi_oe1 = 1'b0;
+            spi_oe2 = 1'b0;
+            spi_oe3 = 1'b0;
         end
         endcase
     end
