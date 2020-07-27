@@ -38,7 +38,7 @@ In order to easy user to study RISC-V in a quick and easy way, we have made a de
 #### 蜂鸟E203专用的FPGA开发板
 
 #### HbirdKit
-[HbirdKit](pics/hbirdkit.jpg)
+![HbirdKit](pics/hbirdkit.jpg)
 #### DDR200T 
 
 #### 蜂鸟E203专用的JTAG调试器
