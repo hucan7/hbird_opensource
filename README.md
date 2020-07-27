@@ -4,15 +4,15 @@ Hummingbirdv2 E203 Core and SoC
 About
 -----------
 
-This repository hosts the project for open-source Hummingbird E203 RISC-V processor Core and SoC.
+This repository hosts the project for open-source Hummingbirdv2 E203 RISC-V processor Core and SoC.
 
-This's an upgraded version of the project maintained in SI-RISCV/e200_opensource(https://github.com/SI-RISCV/e200_opensource), so we call it Hummingbirdv2 SoC, itsarchitecture is shown in the figure below.
+This's an upgraded version of the project Hummingbird E203 maintained in SI-RISCV/e200_opensource(https://github.com/SI-RISCV/e200_opensource), so we call it Hummingbirdv2 E203, and its architecture is shown in the figure below.
 ![hbirdv2](pics/hbirdv2_soc.JPG)
 
 
 In this new version, we have following updates.
 * Add NICE(Nuclei Instruction Co-unit Extension) for E203 core, so user could create customized HW co-units with E203 core easily.
-* Integrate the APB interface peripherals(GPIO, I2C, UART, SPI, PWM) from PULP Platform(https://github.com/pulp-platform) into Hummingbirdv2 SoC, these peripherals are implementedin System Verilog language, so it's easy for user to understand. 
+* Integrate the APB interface peripherals(GPIO, I2C, UART, SPI, PWM) from PULP Platform(https://github.com/pulp-platform) into Hummingbirdv2 SoC, these peripherals are implemented in System Verilog language, so it's easy for user to understand. 
 * Add new development board(DDR200T) support for Hummingbirdv2 SoC. 
 
 Welcome to visit https://www.riscv-mcu.com/community-community.html to participate in the discussion of the Hummingbird E203.
@@ -28,7 +28,7 @@ We have provided very detailed introduction and quick start-up documents to help
 The detailed introduction and the quick start documentation can be seen 
 from https://www.riscv-mcu.com/campus-campus.html.
 
-By following the guidences from the doc, you can very easily start to use Hummingbird E203 processor core and SoC.
+By following the guidences from the doc, you can very easily start to use Hummingbirdv2 E203 processor Core and SoC.
 
 What are you waiting for? Try it out now!
 
@@ -56,13 +56,16 @@ Release History
        * According to the Apache 2.0 license, this open-sourced core can be used in commercial way.
        * But the feature is not full. 
        * The main purpose of this open-sourced core is to be used by students/university/research/
-           and entry-level-beginners, hence, the commercial quality (bug-free) and
-           service of this core is not not not warranted!!! 
+         and entry-level-beginners, hence, the commercial quality (bug-free) and service of this core is not not not warranted!!! 
 
 #### Jul 27, 2020
 
-    -- The earlier-test version uploaded to github to try.
+    -- This is release 0.1.1 of Hbirdv2.
     -- NOTE:
-       ---- This is not the official release, please wait the official release which will coming
-            soon and will be recorded at here. You will see the Release History updates.
+       This's an upgraded version of the project Hummingbird E203 maintained in SI-RISCV/e200_opensource(https://github.com/SI-RISCV/e200_opensource), here are the new features of this release.
+       * Add NICE(Nuclei Instruction Co-unit Extension) for E203 core
+       * Integrate the APB interface peripherals(GPIO, I2C, UART, SPI, PWM) from PULP Platform
+       * Add new development board(DDR200T) support for Hummingbirdv2 SoC. 
+
+       
     
