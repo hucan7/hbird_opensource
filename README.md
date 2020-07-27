@@ -1,4 +1,4 @@
-Hummingbirdv2 E203 SoC 
+Hummingbirdv2 E203 Core and SoC 
 ================
 
 About
@@ -6,7 +6,9 @@ About
 
 This repository hosts the project for open-source Hummingbird E203 RISC-V processor Core and SoC.
 
-This's an upgraded version of the project maintained in SI-RISCV/e200_opensource(https://github.com/SI-RISCV/e200_opensource), so we call it Hummingbirdv2 SoC.
+This's an upgraded version of the project maintained in SI-RISCV/e200_opensource(https://github.com/SI-RISCV/e200_opensource), so we call it Hummingbirdv2 SoC, itsarchitecture is shown in the figure below.
+![hbirdv2](pics/hbirdv2_soc.JPG)
+
 
 In this new version, we have following updates.
 * Add NICE(Nuclei Instruction Co-unit Extension) for E203 core, so user could create customized HW co-units with E203 core easily.
@@ -28,7 +30,6 @@ from https://www.riscv-mcu.com/campus-campus.html.
 
 By following the guidences from the doc, you can very easily start to use Hummingbird E203 processor core and SoC.
 
-
 What are you waiting for? Try it out now!
 
 Dedicated FPGA-Board and JTAG-Debugger 
@@ -40,10 +41,12 @@ In order to easy user to study RISC-V in a quick and easy way, we have made a de
 #### HbirdKit
 ![HbirdKit](pics/hbirdkit.jpg)
 #### DDR200T 
+![HbirdKit](pics/DDR200T.JPG)
 
 #### 蜂鸟E203专用的JTAG调试器
+![HbirdKit](pics/debugger.JPG)
 
-The detailed introduction and the relevant documentation can be seen from https://github.com/SI-RISCV/e200_opensource/tree/master/boards directory.
+The detailed introduction and the relevant documentation can be seen from https://nucleisys.com/developboard.php.
 
 
 Release History
