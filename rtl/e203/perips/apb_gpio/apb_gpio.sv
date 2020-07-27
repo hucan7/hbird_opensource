@@ -1,4 +1,6 @@
 // Copyright 2017 ETH Zurich and University of Bologna.
+// -- Adaptable modifications made for hbirdv2 SoC. -- 
+// Copyright 2020 Nuclei System Technology, Inc.
 // Copyright and related rights are licensed under the Solderpad Hardware
 // License, Version 0.51 (the “License”); you may not use this file except in
 // compliance with the License.  You may obtain a copy of the License at
