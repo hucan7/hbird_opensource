@@ -1,4 +1,4 @@
-Hummingbird E200 Opensource Processor Core
+Hummingbirdv2 E203 
 
 install RTL file and make .mcs file
 ================
@@ -6,24 +6,17 @@ install RTL file and make .mcs file
 
 For hbirdkit:
 
-make install CORE=e203 FPGA_NAME=hbirdkit 
+make install  FPGA_NAME=hbirdkit 
 
-make mcs     CORE=e203 FPGA_NAME=hbirdkit 
-
-================
-
-For nucleikit:
-
-make install CORE=e203 FPGA_NAME=nucleikit 
-
-make mcs     CORE=e203 FPGA_NAME=nucleikit 
+make mcs      FPGA_NAME=hbirdkit 
 
 ================
 
-For artydevkit:
+For ddr200t:
 
-make install CORE=e203 FPGA_NAME=artydevkit 
+make install  FPGA_NAME=ddr200t 
 
-make mcs     CORE=e203 FPGA_NAME=artydevkit 
+make mcs      FPGA_NAME=ddr200t 
 
 ================
+
