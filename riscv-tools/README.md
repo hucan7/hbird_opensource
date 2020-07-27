@@ -3,5 +3,5 @@ riscv-tools [![Build Status](https://travis-ci.org/riscv/riscv-tools.svg?branch=
 
 This repo is just the hacked version from the original riscv-tools (from https://github.com/riscv/riscv-tools)
 
-Since the original riscv-tools from https://github.com/riscv/riscv-tools keep updating and may be unstable, the purpose of this repo is to use a reduced version of riscv-tools to make it enough to be used by SI-RISCV/e200_opensource project and keep it stable. 
+Since the original riscv-tools from https://github.com/riscv/riscv-tools keep updating and may be unstable, the purpose of this repo is to use a reduced version of riscv-tools to make it enough to be used by riscv-mcu/e203_hbirdv2 project and keep it stable. 
 
