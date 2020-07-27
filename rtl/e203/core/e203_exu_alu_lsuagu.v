@@ -290,7 +290,7 @@ module e203_exu_alu_lsuagu(
                                   //   to complete first, in corner cases it may end 
                                   //   up with deadlock.
                                   // Force to wait oitf empty before doing amo state-machine
-                                  //   may hurt performance, but we dont care it. In e200 implementation
+                                  //   may hurt performance, but we dont care it. In e203 implementation
                                   //   the AMO was not target for performance.
                                   & oitf_empty)
                                  );

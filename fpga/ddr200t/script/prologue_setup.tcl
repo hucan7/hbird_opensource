@@ -10,7 +10,7 @@ set top {system}
 
 #create_project -part $part_fpga -in_memory 
 #Bob: we need to create a project database here, so should delete the -in_memory option
-create_project e200_fpga_proj $wrkdir -part $part_fpga -force 
+create_project e203_fpga_proj $wrkdir -part $part_fpga -force 
 set_property -dict [list \
   TARGET_LANGUAGE {Verilog} \
   SIMULATOR_LANGUAGE {Mixed} \
